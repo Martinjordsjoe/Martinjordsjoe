@@ -1,19 +1,124 @@
 <!DOCTYPE html>
-<html>
- <title>Martin Jordsjø</title>
- <head>
-  <link href="linktinnsidemimo.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raffle Picker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #202945;
+      margin: 0;
+    }
+    .logo {
+      margin-bottom: 20px;
+      max-width: 300px;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .entries-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .entry-item {
+      padding: 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .winner {
+      font-weight: bold;
+      color: #4CAF50;
+      margin-top: 20px;
+    }
+  </style>
 </head>
- <body>
-  <img src="https://journalen.oslomet.no/sites/default/files/styles/media_image/public/martinjordsjops.jpg?itok=RORhKXgP"
-   width="150" height="150">
-  <h1> Martin August Herman Jordsjø </h1>
-  <h2> Support og utvikler <i class="fas fa-person-skiing"></i></h2>
-  <p> Velkommen til min hovedside </p>
-  <a href="https://instagram.com/martinjordsjoe"><i class="fab fa-instagram"></i> Min Instagram</a>
-   <a href="https://skimore.no"><i class="fa-regular fa-snowflake"></i> Min Jobb </a>
- </body>
+<body>
+
+  <!-- Logo -->
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqO1JvaST9qx0mdOtDoQkivtvxGb61IykdMQ&s" alt="Skimore Logo" class="logo">
+
+  <!-- Raffle box -->
+  <div class="container">
+    <h2>Raffle Picker</h2>
+    <input type="text" id="nameInput" placeholder="Enter participant's name" />
+    <input type="number" id="rafflesInput" placeholder="Enter number of raffles" min="1" />
+    <button onclick="addParticipant()">Add Participant</button>
+
+    <ul id="entriesList" class="entries-list"></ul>
+
+    <button onclick="pickWinner()">Select Winner</button>
+    <p id="winnerMessage" class="winner"></p>
+  </div>
+
+  <script>
+    let participants = [];
+
+    function addParticipant() {
+      const name = document.getElementById('nameInput').value;
+      const raffles = parseInt(document.getElementById('rafflesInput').value);
+      if (name && raffles > 0) {
+        participants.push({ name, raffles });
+        document.getElementById('nameInput').value = '';
+        document.getElementById('rafflesInput').value = '';
+        displayParticipants();
+      } else {
+        alert("Please enter valid participant name and raffle entries.");
+      }
+    }
+
+    function displayParticipants() {
+      const entriesList = document.getElementById('entriesList');
+      entriesList.innerHTML = '';
+      participants.forEach(participant => {
+        const li = document.createElement('li');
+        li.classList.add('entry-item');
+        li.textContent = `${participant.name} - ${participant.raffles} Raffles`;
+        entriesList.appendChild(li);
+      });
+    }
+
+    function pickWinner() {
+      if (participants.length === 0) {
+        alert("No participants to choose from!");
+        return;
+      }
+
+      const allEntries = [];
+      participants.forEach(p => {
+        for (let i = 0; i < p.raffles; i++) {
+          allEntries.push(p.name);
+        }
+      });
+
+      const winner = allEntries[Math.floor(Math.random() * allEntries.length)];
+      document.getElementById('winnerMessage').textContent = `The winner is: ${winner}`;
+    }
+  </script>
+</body>
 </html>
 
 
