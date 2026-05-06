@@ -1,192 +1,243 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sentrert bilde</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martin Jordsjø – Skisesongen 25/26</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  :root{
-    --bg: #0a3cff;
-    --panel: rgba(0,0,0,0.35);
-    --text: #ffffff;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
 
-  html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #202945;
+    --teal-light: #D7EDEF;
+    --teal-mid: #A6D1D6;
+    --teal-dark: #60AFBB;
+    --green: #6ABF4B;
+    --green-light: #E1F2DB;
+    --yellow: #EFB830;
+    --yellow-light: #FFEBA3;
   }
 
   body {
-    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    background: var(--teal-light);
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    color: var(--text);
+    padding: 2rem;
   }
 
-  /* Wrapper for bilde + overlay */
-  .stage{
-    position: relative;
-    width: min(1100px, 95vw);
-    height: min(80vh, 900px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /* Fade-in */
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeIn 700ms ease-out forwards;
+  .card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 2.5rem 2rem 2rem;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(32,41,69,0.10);
+    animation: fadeUp 0.6s ease both;
   }
 
-  @keyframes fadeIn{
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Selve bildet */
-  #heroImg{
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: 14px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-
-    /* Zoom-effekt (smooth) */
-    transition: transform 250ms ease, box-shadow 250ms ease;
-    transform-origin: center center;
+  .header { margin-bottom: 1.5rem; }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .header p {
+    font-size: 0.85rem;
+    color: #7a8499;
+    margin-top: 4px;
   }
 
-  /* Zoom ved hover (PC) */
-  @media (hover: hover) {
-    .stage:hover #heroImg{
-      transform: scale(1.04);
-      box-shadow: 0 28px 80px rgba(0,0,0,0.55);
-    }
-  }
-
-  /* Tekst/logo øverst */
-  .overlay-top{
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    right: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    pointer-events: none; /* så du kan klikke bilde uten at overlay stopper det */
-  }
-
-  .brand{
-    pointer-events: auto;
-    display: inline-flex;
-    align-items: center;
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    padding: 10px 12px;
+    margin-bottom: 1.75rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .stat {
+    background: var(--teal-light);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .stat-label { font-size: 11px; color: #7a8499; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat-value { font-size: 1.6rem; font-weight: 600; color: var(--navy); }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    margin: 0 auto 1.5rem;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
     border-radius: 12px;
-    background: var(--panel);
-    backdrop-filter: blur(6px);
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .legend-item:hover { background: var(--teal-light); }
+  .legend-dot {
+    width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0;
+  }
+  .legend-name { font-size: 13px; color: var(--navy); font-weight: 500; flex: 1; }
+  .legend-turer { font-size: 12px; color: #7a8499; }
+  .legend-pct {
+    font-size: 13px; font-weight: 600; color: var(--navy);
+    background: var(--teal-light); border-radius: 999px;
+    padding: 2px 10px;
   }
 
-  .brand .dot{
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: #ffffff;
-    opacity: 0.9;
-  }
-
-  .brand .text{
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    font-size: 14px;
-  }
-
-  /* Knapp styling */
-  .btn{
-    pointer-events: auto;
-    border: 0;
-    border-radius: 12px;
-    padding: 10px 12px;
-    background: rgba(255,255,255,0.16);
-    color: #fff;
-    font-weight: 650;
-    cursor: pointer;
-    backdrop-filter: blur(6px);
-    transition: transform 150ms ease, background 150ms ease;
-  }
-
-  .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.22); }
-  .btn:active{ transform: translateY(0px) scale(0.98); }
-
-  /* Liten hjelpetekst nederst */
-  .hint{
-    position: absolute;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--panel);
-    padding: 8px 12px;
-    border-radius: 999px;
-    font-size: 12px;
-    opacity: 0.9;
-    backdrop-filter: blur(6px);
+  .footer {
+    margin-top: 1.5rem;
+    font-size: 11px;
+    color: #aab0be;
+    text-align: center;
+    animation: fadeUp 0.7s 0.4s ease both;
   }
 </style>
 </head>
-
 <body>
-
-  <div class="stage">
-    <!-- Overlegg: logo/tekst + fullskjerm-knapp -->
-    <div class="overlay-top">
-      <!-- BYTT TEKST HER (evt. bytt til <img src="logo.png">) -->
-      <div class="brand" aria-label="Logo/tekst">
-        <span class="dot" aria-hidden="true"></span>
-        <span class="text">DIN LOGO / TEKST</span>
-      </div>
-
-      <button class="btn" id="fsBtn" type="button">Fullskjerm</button>
-    </div>
-
-    <img
-      id="heroImg"
-      src="https://i.ebayimg.com/images/g/1LkAAOSwMQJnhFdo/s-l1200.jpg"
-      alt="Bilde"
-    />
-
-    <div class="hint">Tips: Hover for zoom • Klikk “Fullskjerm”</div>
+<div class="card">
+  <div class="header">
+    <h1>Martin Jordsjø</h1>
+    <p>Skisesongen 2025/26 &nbsp;·&nbsp; ID 346186</p>
   </div>
 
-<script>
-  const fsBtn = document.getElementById("fsBtn");
-  const stage = document.querySelector(".stage");
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Skidager</div><div class="stat-value">10</div></div>
+    <div class="stat"><div class="stat-label">Turer totalt</div><div class="stat-value">83</div></div>
+    <div class="stat"><div class="stat-label">Snitt/dag</div><div class="stat-value">8,3</div></div>
+  </div>
 
-  async function toggleFullscreen() {
-    try {
-      if (!document.fullscreenElement) {
-        await stage.requestFullscreen();
-        fsBtn.textContent = "Avslutt fullskjerm";
-      } else {
-        await document.exitFullscreen();
-        fsBtn.textContent = "Fullskjerm";
+  <div class="chart-wrap">
+    <canvas id="pie" role="img" aria-label="Kakediagram turer per anlegg: Skimore Oslo 70, Ingierkollen 11, Kongsberg 2">
+      Skimore Oslo: 70 turer. Ingierkollen: 11 turer. Skimore Kongsberg: 2 turer.
+    </canvas>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#60AFBB;"></div>
+      <span class="legend-name">Skimore Oslo</span>
+      <span class="legend-turer">70 turer</span>
+      <span class="legend-pct">84 %</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#6ABF4B;"></div>
+      <span class="legend-name">Ingierkollen Slalåmsenter</span>
+      <span class="legend-turer">11 turer</span>
+      <span class="legend-pct">13 %</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#EFB830;"></div>
+      <span class="legend-name">Skimore Kongsberg</span>
+      <span class="legend-turer">2 turer</span>
+      <span class="legend-pct">2 %</span>
+    </div>
+  </div>
+
+  <div class="footer">Generert fra Skimore CRM &nbsp;·&nbsp; Data per 06.05.2026</div>
+</div>
+
+<script>
+const labelPlugin = {
+  id: 'sliceLabels',
+  afterDatasetDraw(chart) {
+    const { ctx, data } = chart;
+    const meta = chart.getDatasetMeta(0);
+    const total = data.datasets[0].data.reduce((a,b) => a+b, 0);
+    const shortNames = ['Skimore Oslo', 'Ingierkollen', 'Kongsberg'];
+
+    meta.data.forEach((arc, i) => {
+      const val = data.datasets[0].data[i];
+      const pct = Math.round(val / total * 100);
+      if (pct < 5) return;
+
+      const angle = (arc.startAngle + arc.endAngle) / 2;
+      const r = (arc.innerRadius + arc.outerRadius) / 2;
+      const x = arc.x + Math.cos(angle) * r;
+      const y = arc.y + Math.sin(angle) * r;
+
+      ctx.save();
+      ctx.fillStyle = '#202945';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '600 13px "DM Sans", sans-serif';
+      ctx.fillText(shortNames[i], x, y - 9);
+      ctx.font = '400 12px "DM Sans", sans-serif';
+      ctx.fillStyle = '#3a4a6a';
+      ctx.fillText(pct + ' %', x, y + 9);
+      ctx.restore();
+    });
+  }
+};
+
+new Chart(document.getElementById('pie'), {
+  type: 'doughnut',
+  plugins: [labelPlugin],
+  data: {
+    labels: ['Skimore Oslo', 'Ingierkollen Slalåmsenter', 'Skimore Kongsberg'],
+    datasets: [{
+      data: [70, 11, 2],
+      backgroundColor: ['#60AFBB', '#6ABF4B', '#EFB830'],
+      borderColor: '#ffffff',
+      borderWidth: 3,
+      hoverOffset: 12,
+      hoverBorderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '0%',
+    animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 900,
+      easing: 'easeInOutQuart'
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#202945',
+        titleFont: { family: "'DM Sans', sans-serif", size: 13, weight: '500' },
+        bodyFont: { family: "'DM Sans', sans-serif", size: 12 },
+        padding: 10,
+        cornerRadius: 10,
+        callbacks: {
+          label: ctx => {
+            const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+            const pct = Math.round(ctx.parsed / total * 100);
+            return `  ${ctx.parsed} turer  (${pct} %)`;
+          }
+        }
       }
-    } catch (e) {
-      alert("Fullskjerm støttes ikke her (eller ble blokkert av nettleseren).");
     }
   }
-
-  fsBtn.addEventListener("click", toggleFullscreen);
-
-  // Hold teksten riktig hvis bruker trykker ESC
-  document.addEventListener("fullscreenchange", () => {
-    fsBtn.textContent = document.fullscreenElement ? "Avslutt fullskjerm" : "Fullskjerm";
-  });
+});
 </script>
-
 </body>
 </html>
