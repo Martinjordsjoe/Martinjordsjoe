@@ -68,8 +68,53 @@
     justify-content: space-between;
     align-items: center;
   }
-  .logo { font-weight: 500; letter-spacing: 1px; font-size: 18px; }
-  .logo span { color: var(--teal-dark); }
+  .logo { font-weight: 500; letter-spacing: 1px; font-size: 18px; color: var(--navy); }
+  .logo span { color: var(--navy); }
+
+  /* Hovedmeny */
+  #home { background: var(--white); flex: 1; padding: 12px 16px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .hero {
+    background: var(--teal-light);
+    border-radius: 24px;
+    padding: 20px 24px;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-top { display: flex; justify-content: space-between; align-items: center; }
+  .hero .hei { margin-top: auto; font-size: 32px; font-weight: 400; }
+  .home-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 18px 22px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--navy);
+    cursor: pointer;
+  }
+  .home-btn.mid { background: var(--teal-mid); }
+  .home-btn.dark {
+    background: var(--teal-dark);
+    justify-content: space-between;
+    padding: 12px 12px 12px 22px;
+  }
+  .member-card {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 24px;
+    padding: 24px;
+  }
+  .member-card .mc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .member-card h2 { margin: 0; font-size: 22px; color: var(--white); }
+  .member-card .line { font-size: 14px; margin: 6px 0; opacity: .9; }
+  .member-card .pill.keycard { background: var(--teal-mid); box-shadow: none; }
+  .member-card .pill.stats { background: var(--teal-light); margin-top: 14px; box-shadow: none; }
   .profile {
     background: var(--white);
     border-radius: 999px;
@@ -327,6 +372,34 @@
 <body>
 
 <div class="phone">
+
+  <!-- HOVEDMENY -->
+  <div id="home">
+    <div class="hero">
+      <div class="hero-top">
+        <div class="logo">SKIM<span>O</span>RE</div>
+        <div class="profile">Profil&nbsp;🙂</div>
+      </div>
+      <div class="hei">Hei, Martin!</div>
+    </div>
+    <button class="home-btn mid" onclick="showBooking()">＋&nbsp; Book flere aktiviteter</button>
+    <button class="home-btn dark">
+      <span>🎁&nbsp; 5 kuponger</span>
+      <span class="pill">Vis</span>
+    </button>
+    <div class="member-card">
+      <div class="mc-top">
+        <h2>Medlemskap</h2>
+        <button class="pill keycard">▯ Keycard</button>
+      </div>
+      <div class="line">👤 Martin Skimore</div>
+      <div class="line">✓ Aktivt</div>
+      <button class="pill stats">📊 Goals &amp; Stats</button>
+    </div>
+  </div>
+
+  <!-- KJØPSFLYT -->
+  <div id="booking" class="hidden" style="display:flex; flex-direction:column; flex:1;">
   <div class="appbar">
     <div class="logo">SKIM<span>O</span>RE</div>
     <div class="profile">Profil&nbsp;🙂</div>
@@ -338,7 +411,7 @@
     <div id="step1">
       <div class="sheet-header">
         <h1>Book og kjøp adgang</h1>
-        <button class="close">✕</button>
+        <button class="close" onclick="showHome()">✕</button>
       </div>
       <div class="step-label">Steg 1 av 4 – Velg anlegg</div>
       <div class="steps"><div class="done"></div><div></div><div></div><div></div></div>
@@ -409,11 +482,14 @@
         <p class="muted">Skann QR-koden i heisen eller i resepsjonen</p>
         <br>
         <button class="pill" onclick="restart()">Kjøp ny billett</button>
+        &nbsp;
+        <button class="pill" onclick="restart(); showHome()">Til hovedmeny</button>
       </div>
     </div>
 
     <div class="footer-note">Eksempel-prototype · priser er kun illustrasjon</div>
   </div>
+  </div><!-- /booking -->
 </div>
 
 <script>
@@ -588,6 +664,17 @@ function selectPay(p) {
 function restart() {
   state = { venue:null, location:null, ticket:null, price:0, qty:{voksen:0, barn:0, honnor:0}, pay:'vipps' };
   go(1);
+}
+
+function showBooking() {
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('booking').classList.remove('hidden');
+  go(1);
+}
+
+function showHome() {
+  document.getElementById('booking').classList.add('hidden');
+  document.getElementById('home').classList.remove('hidden');
 }
 
 // init
