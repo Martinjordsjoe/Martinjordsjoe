@@ -1,767 +1,599 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="nb">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skimore – Salgsprosess mockup</title>
-  <style>
-    :root {
-      --skimore-blue: #202b45;
-      --card: #cfeff1;
-      --card-strong: #a9dde2;
-      --bg: #f4f7f8;
-      --white: #ffffff;
-      --muted: #667085;
-      --border: #e8eef0;
-      --shadow: 0 10px 30px rgba(32, 43, 69, 0.14);
-      --button-shadow: 0 3px 9px rgba(32, 43, 69, 0.18);
-      --radius-large: 28px;
-      --radius-pill: 999px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skimore – Book og kjøp adgang</title>
+<style>
+  @font-face {
+    font-family: 'Saans';
+    src: url('https://storage.googleapis.com/skimore/assets/fonts/SaansRegular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Saans';
+    src: url('https://storage.googleapis.com/skimore/assets/fonts/SaansMedium.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+  }
 
-    * {
-      box-sizing: border-box;
-    }
+  :root {
+    --navy: #202945;
+    --teal-light: #D7EDEF;
+    --teal-mid: #A6D1D6;
+    --teal-dark: #60AFBB;
+    --white: #FFFFFF;
+    --grey-1: #ECEEEE;
+    --grey-2: #D2D9DB;
+    --green-light: #E1F2DB;
+    --green-dark: #053D0B;
+    --yellow-light: #FFEBA3;
+    --yellow-dark: #241C00;
+    --red: #FF5C5C;
+    --radius: 16px;
+  }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(169, 221, 226, 0.45), transparent 35%),
-        linear-gradient(180deg, #edf5f6 0%, #f8fbfb 100%);
-      color: var(--skimore-blue);
-      display: flex;
-      justify-content: center;
-      padding: 24px 12px;
-    }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    .phone {
-      width: min(430px, 100%);
-      background: var(--white);
-      border-radius: 34px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      min-height: 880px;
-      position: relative;
-    }
+  body {
+    font-family: 'Saans', -apple-system, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    background: var(--navy);
+    color: var(--navy);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 24px 12px;
+  }
 
-    .topbar {
-      height: 92px;
-      background: linear-gradient(180deg, #d7eff1, #effafa);
-      padding: 22px 28px 12px;
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-    }
+  .phone {
+    width: 100%;
+    max-width: 430px;
+    background: var(--teal-light);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,.35);
+    display: flex;
+    flex-direction: column;
+    min-height: 860px;
+  }
 
-    .logo {
-      font-size: 28px;
-      letter-spacing: 1px;
-      font-weight: 800;
-      line-height: 1;
-    }
+  /* App top bar */
+  .appbar {
+    background: var(--teal-light);
+    padding: 16px 24px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo { font-weight: 500; letter-spacing: 1px; font-size: 18px; }
+  .logo span { color: var(--teal-dark); }
+  .profile {
+    background: var(--white);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+  }
 
-    .profile {
-      background: rgba(255,255,255,0.65);
-      border-radius: var(--radius-pill);
-      padding: 10px 14px;
-      font-weight: 700;
-      font-size: 15px;
-    }
+  /* Sheet */
+  .sheet {
+    background: var(--white);
+    border-radius: 24px 24px 0 0;
+    flex: 1;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .sheet {
-      margin-top: -12px;
-      background: var(--white);
-      border-radius: 30px 30px 0 0;
-      padding: 28px;
-      min-height: 800px;
-    }
+  .sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  h1 { font-size: 22px; font-weight: 500; }
+  h2 { font-size: 17px; font-weight: 500; margin: 20px 0 10px; }
+  .close, .back {
+    background: var(--grey-1);
+    border: none;
+    border-radius: 999px;
+    width: 34px; height: 34px;
+    font-size: 16px;
+    color: var(--navy);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .back { width: auto; padding: 0 14px; font-size: 13px; font-weight: 500; }
 
-    .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+  /* Steps indicator */
+  .steps {
+    display: flex;
+    gap: 6px;
+    margin: 12px 0 20px;
+  }
+  .steps div {
+    flex: 1; height: 4px;
+    border-radius: 999px;
+    background: var(--grey-2);
+  }
+  .steps div.done { background: var(--teal-dark); }
+  .step-label { font-size: 12px; color: var(--teal-dark); font-weight: 500; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
 
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-    }
+  /* Cards */
+  .card {
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    color: var(--navy);
+    background: var(--teal-light);
+    transition: filter .15s;
+  }
+  .card:hover { filter: brightness(.97); }
+  .card.mid { background: var(--teal-mid); }
+  .card .icon {
+    width: 38px; height: 38px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.65);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .card .txt { flex: 1; }
+  .card .title { font-weight: 500; font-size: 15px; }
+  .card .desc { font-size: 12.5px; opacity: .8; margin-top: 2px; }
+  .card .price { font-weight: 500; font-size: 14px; white-space: nowrap; }
 
-    h2 {
-      margin: 28px 0 14px;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
+  /* Kompakt 2-kolonners anleggsvisning */
+  .venue-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .card.compact {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding: 14px;
+    margin-bottom: 0;
+  }
+  .card.compact .icon {
+    width: 44px; height: 44px;
+    background: var(--white);
+    font-size: 13px; font-weight: 500;
+    color: var(--navy);
+    overflow: hidden;
+  }
+  .card.compact .icon img { width: 30px; height: 30px; object-fit: contain; }
+  .card.compact .title { font-size: 14px; line-height: 1.2; }
+  .card.compact .desc { font-size: 11px; line-height: 1.3; }
 
-    .close {
-      width: 42px;
-      height: 42px;
-      border: 0;
-      border-radius: 50%;
-      background: #d9f3f5;
-      color: var(--skimore-blue);
-      font-size: 26px;
-      cursor: pointer;
-    }
+  .pill {
+    background: var(--white);
+    color: var(--navy);
+    border: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(32,41,69,.12);
+  }
+  .pill:hover { background: var(--grey-1); }
 
-    .back {
-      border: 0;
-      background: transparent;
-      color: var(--skimore-blue);
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      padding: 0 0 12px;
-      display: none;
-    }
+  .cta {
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    padding: 16px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: auto;
+  }
+  .cta:disabled { background: var(--grey-2); cursor: not-allowed; }
 
-    .intro {
-      color: var(--muted);
-      margin: -10px 0 24px;
-      font-size: 15px;
-      line-height: 1.45;
-    }
+  /* Date & quantity */
+  .field {
+    background: var(--grey-1);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .field label { font-size: 12px; font-weight: 500; display: block; margin-bottom: 6px; opacity: .7; }
+  .field input[type=date] {
+    border: none; background: transparent;
+    font-family: inherit; font-size: 16px; color: var(--navy);
+    width: 100%;
+  }
+  .qty-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--grey-1);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+  .qty-row .info .t { font-weight: 500; font-size: 15px; }
+  .qty-row .info .p { font-size: 12.5px; opacity: .75; }
+  .stepper { display: flex; align-items: center; gap: 12px; }
+  .stepper button {
+    width: 32px; height: 32px;
+    border-radius: 999px;
+    border: none;
+    background: var(--white);
+    color: var(--navy);
+    font-size: 17px;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 1px 3px rgba(32,41,69,.12);
+  }
+  .stepper .n { font-weight: 500; min-width: 18px; text-align: center; }
 
-    .card {
-      width: 100%;
-      border: 0;
-      text-align: left;
-      display: grid;
-      grid-template-columns: 36px 1fr auto;
-      gap: 14px;
-      align-items: center;
-      min-height: 90px;
-      padding: 18px 14px 18px 18px;
-      background: var(--card);
-      border-radius: var(--radius-large);
-      color: var(--skimore-blue);
-      margin: 12px 0;
-      cursor: pointer;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
-    }
+  /* Summary */
+  .summary {
+    background: var(--teal-light);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .summary .row {
+    display: flex; justify-content: space-between;
+    font-size: 14px; padding: 5px 0;
+  }
+  .summary .row.total {
+    border-top: 1px solid var(--teal-mid);
+    margin-top: 8px; padding-top: 12px;
+    font-weight: 500; font-size: 16px;
+  }
 
-    .card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(32, 43, 69, 0.10);
-      background: var(--card-strong);
-    }
+  .pay-option {
+    display: flex; align-items: center; gap: 12px;
+    border: 2px solid var(--grey-2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: var(--white);
+    width: 100%;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--navy);
+    text-align: left;
+  }
+  .pay-option.sel { border-color: var(--teal-dark); background: var(--teal-light); }
+  .pay-option .dot {
+    width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: #fff; font-weight: 500;
+  }
+  .vipps { background: #FF5B24; }
+  .kort { background: var(--navy); }
 
-    .card.selected {
-      background: var(--card-strong);
-      outline: 2px solid rgba(32,43,69,0.12);
-    }
+  /* Confirmation */
+  .confirm { text-align: center; padding-top: 24px; }
+  .check {
+    width: 72px; height: 72px;
+    border-radius: 999px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-size: 34px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .qr {
+    width: 150px; height: 150px;
+    margin: 22px auto;
+    border-radius: 12px;
+    background:
+      repeating-linear-gradient(0deg, var(--navy) 0 8px, transparent 8px 16px),
+      repeating-linear-gradient(90deg, var(--navy) 0 8px, var(--white) 8px 16px);
+    border: 8px solid var(--white);
+    box-shadow: 0 0 0 1px var(--grey-2);
+  }
+  .badge {
+    display: inline-block;
+    background: var(--yellow-light);
+    color: var(--yellow-dark);
+    font-size: 12px; font-weight: 500;
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 10px;
+  }
+  .muted { font-size: 13px; opacity: .7; margin-top: 8px; }
 
-    .icon {
-      width: 32px;
-      height: 32px;
-      display: grid;
-      place-items: center;
-      font-size: 23px;
-      opacity: 0.9;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 4px;
-      letter-spacing: -0.02em;
-    }
-
-    .card-sub {
-      font-size: 13.5px;
-      color: #4e5b70;
-      line-height: 1.35;
-    }
-
-    .pill {
-      border: 0;
-      background: var(--white);
-      color: var(--skimore-blue);
-      font-weight: 800;
-      font-size: 16px;
-      border-radius: var(--radius-pill);
-      padding: 14px 20px;
-      box-shadow: var(--button-shadow);
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .categories {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .chip {
-      background: #edf6f7;
-      border: 1px solid #d8eaec;
-      color: var(--skimore-blue);
-      border-radius: var(--radius-pill);
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .details-panel {
-      background: #f7fbfb;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 18px;
-      margin-top: 14px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 800;
-      margin: 14px 0 7px;
-    }
-
-    select,
-    input {
-      width: 100%;
-      border: 1px solid #d9e4e6;
-      border-radius: 16px;
-      padding: 14px 14px;
-      font: inherit;
-      color: var(--skimore-blue);
-      background: white;
-    }
-
-    .counter-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 12px;
-      background: white;
-      border: 1px solid #d9e4e6;
-      border-radius: 16px;
-      padding: 12px 14px;
-      margin: 8px 0;
-    }
-
-    .counter-title {
-      font-weight: 800;
-    }
-
-    .counter-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .counter {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .round {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 0;
-      background: #e5f5f6;
-      color: var(--skimore-blue);
-      font-size: 20px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .count {
-      width: 18px;
-      text-align: center;
-      font-weight: 900;
-    }
-
-    .primary {
-      width: 100%;
-      margin-top: 20px;
-      border: 0;
-      border-radius: var(--radius-pill);
-      padding: 17px 20px;
-      background: var(--skimore-blue);
-      color: white;
-      font-size: 17px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(32, 43, 69, 0.22);
-    }
-
-    .secondary {
-      width: 100%;
-      margin-top: 10px;
-      border: 1px solid #d9e4e6;
-      border-radius: var(--radius-pill);
-      padding: 15px 20px;
-      background: white;
-      color: var(--skimore-blue);
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .summary {
-      background: #f7fbfb;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      margin-top: 18px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 12px 0;
-      border-bottom: 1px solid #e2edef;
-      font-size: 15px;
-    }
-
-    .summary-row:last-child {
-      border-bottom: 0;
-    }
-
-    .summary-row strong {
-      text-align: right;
-    }
-
-    .total {
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    .success {
-      text-align: center;
-      padding: 32px 0 12px;
-    }
-
-    .success-icon {
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      background: #d9f3f5;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 18px;
-      font-size: 42px;
-    }
-
-    .small-note {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      margin-top: 12px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 390px) {
-      body { padding: 0; }
-      .phone { border-radius: 0; min-height: 100vh; }
-      .sheet { padding: 24px 20px; }
-      h1 { font-size: 25px; }
-      .card { grid-template-columns: 30px 1fr auto; gap: 10px; }
-      .pill { padding: 12px 15px; }
-    }
-  </style>
+  .hidden { display: none !important; }
+  .footer-note {
+    text-align: center; font-size: 11px; color: var(--teal-mid);
+    padding: 10px 0 4px;
+  }
+</style>
 </head>
 <body>
-  <main class="phone">
-    <div class="topbar">
-      <div class="logo">SKIMORE</div>
-      <div class="profile">Profil</div>
+
+<div class="phone">
+  <div class="appbar">
+    <div class="logo">SKIM<span>O</span>RE</div>
+    <div class="profile">Profil&nbsp;🙂</div>
+  </div>
+
+  <div class="sheet">
+
+    <!-- STEG 1: Velg anlegg -->
+    <div id="step1">
+      <div class="sheet-header">
+        <h1>Book og kjøp adgang</h1>
+        <button class="close">✕</button>
+      </div>
+      <div class="step-label">Steg 1 av 4 – Velg anlegg</div>
+      <div class="steps"><div class="done"></div><div></div><div></div><div></div></div>
+      <div id="venueList" class="venue-grid"></div>
     </div>
 
-    <section class="sheet">
-      <button class="back" id="backBtn">← Tilbake</button>
+    <!-- STEG 2: Velg billett -->
+    <div id="step2" class="hidden">
+      <div class="sheet-header">
+        <h1 id="venueName"></h1>
+        <button class="back" onclick="go(1)">‹ Tilbake</button>
+      </div>
+      <div class="step-label">Steg 2 av 4 – Velg billett</div>
+      <div class="steps"><div class="done"></div><div class="done"></div><div></div><div></div></div>
+      <div id="ticketList"></div>
+    </div>
 
-      <div class="header-row">
-        <h1 id="pageTitle">Book og kjøp adgang</h1>
-        <button class="close" onclick="resetFlow()">×</button>
+    <!-- STEG 3: Dato og antall -->
+    <div id="step3" class="hidden" style="display:flex; flex-direction:column; flex:1;">
+      <div class="sheet-header">
+        <h1 id="ticketName"></h1>
+        <button class="back" onclick="go(2)">‹ Tilbake</button>
+      </div>
+      <div class="step-label">Steg 3 av 4 – Dato og antall</div>
+      <div class="steps"><div class="done"></div><div class="done"></div><div class="done"></div><div></div></div>
+
+      <div class="field">
+        <label>Dato</label>
+        <input type="date" id="dateInput">
       </div>
 
-      <p class="intro" id="pageIntro">
-        Velg først hvilket anlegg kunden skal besøke. Deretter vises kun billettene som gjelder for valgt anlegg.
-      </p>
+      <h2>Hvem skal ha billett?</h2>
+      <div id="qtyList"></div>
 
-      <div id="app"></div>
-    </section>
-  </main>
+      <button class="cta" id="toPayBtn" onclick="go(4)" disabled>Til betaling</button>
+    </div>
 
-  <script>
-    const facilities = [
-      {
-        name: "Skimore Oslo",
-        icon: "🚡",
-        subtitle: "Gjestepass, kjelke og enkelttur",
-        tickets: {
-          "Gjestepass": ["Gjestepass 1 dag", "Gjestepass 2 dager", "Gjestepass 3 dager", "Gjestepass 1 uke"],
-          "Andre billetter": ["Kjelke", "Enkelttur"]
-        }
-      },
-      {
-        name: "Skimore Drammen",
-        icon: "🚵",
-        subtitle: "Gjestepass og enkelttur",
-        tickets: {
-          "Gjestepass": ["Gjestepass 1 dag", "Gjestepass 2 dager", "Gjestepass 3 dager", "Gjestepass 1 uke"],
-          "Andre billetter": ["Enkelttur"]
-        }
-      },
-      {
-        name: "Skimore Kongsberg",
-        icon: "⛷️",
-        subtitle: "Gjestepass og enkelttur",
-        tickets: {
-          "Gjestepass": ["Gjestepass 1 dag", "Gjestepass 2 dager", "Gjestepass 3 dager", "Gjestepass 1 uke"],
-          "Andre billetter": ["Enkelttur"]
-        }
-      },
-      {
-        name: "Kirkerudbakken",
-        icon: "🏔️",
-        subtitle: "Dagskort, formiddag og ettermiddag",
-        tickets: {
-          "Billetter": ["Gjestepass 1 dag", "Formiddag", "Ettermiddag", "Helgekort 2 dager"]
-        }
-      },
-      {
-        name: "Skimore Ingierkollen",
-        icon: "🛷",
-        subtitle: "Barnebakke, aking og enkelttur",
-        tickets: {
-          "Gjestepass": ["Gjestepass 1 dag", "Gjestepass Barnebakken"],
-          "Aktiviteter": ["Aking", "Enkelttur"]
-        }
-      },
-      {
-        name: "Varingskollen",
-        icon: "🎿",
-        subtitle: "Gjestepass og enkelttur",
-        tickets: {
-          "Gjestepass": ["Gjestepass 1 dag", "Gjestepass 2 dager", "Gjestepass 3 dager", "Gjestepass 1 uke"],
-          "Andre billetter": ["Enkelttur"]
-        }
-      },
-      {
-        name: "Uvdal",
-        icon: "🏂",
-        subtitle: "Gjestepass og enkelttur",
-        tickets: {
-          "Gjestepass": ["Gjestepass 1 dag", "Gjestepass 2 dager", "Gjestepass 3 dager", "Gjestepass 1 uke"],
-          "Andre billetter": ["Enkelttur"]
-        }
-      },
-      {
-        name: "Hovden",
-        icon: "⛷️",
-        subtitle: "Gjestepass og enkelttur",
-        tickets: {
-          "Gjestepass": ["Gjestepass 1 dag", "Gjestepass 2 dager", "Gjestepass 3 dager", "Gjestepass 1 uke"],
-          "Andre billetter": ["Enkelttur"]
-        }
-      },
-      {
-        name: "SNØ",
-        icon: "❄️",
-        subtitle: "Alpin, langrenn og kombibilletter",
-        tickets: {
-          "Alpin": ["Gjestepass Ukedag", "Gjestepass Helg"],
-          "Langrenn": ["Langrenn 3 timer", "Langrenn 1 dag"],
-          "Kombi": ["Langrenn & Alpin Ukedag", "Langrenn & Alpin Helg"]
-        }
-      },
-      {
-        name: "HUT",
-        icon: "🧗",
-        subtitle: "Inngang, familie og klippekort",
-        tickets: {
-          "Inngang": ["Inngang med utstyr", "Inngang", "Familiebillett"],
-          "Klippekort": ["Klippekort 10 klipp", "Klippekort Vinterkort"]
-        }
-      }
-    ];
+    <!-- STEG 4: Oppsummering og betaling -->
+    <div id="step4" class="hidden" style="display:flex; flex-direction:column; flex:1;">
+      <div class="sheet-header">
+        <h1>Betaling</h1>
+        <button class="back" onclick="go(3)">‹ Tilbake</button>
+      </div>
+      <div class="step-label">Steg 4 av 4 – Oppsummering</div>
+      <div class="steps"><div class="done"></div><div class="done"></div><div class="done"></div><div class="done"></div></div>
 
-    const priceMap = {
-      "Gjestepass 1 dag": 399,
-      "Gjestepass 2 dager": 699,
-      "Gjestepass 3 dager": 899,
-      "Gjestepass 1 uke": 1299,
-      "Gjestepass Barnebakken": 199,
-      "Gjestepass Ukedag": 379,
-      "Gjestepass Helg": 449,
-      "Kjelke": 249,
-      "Enkelttur": 89,
-      "Formiddag": 299,
-      "Ettermiddag": 299,
-      "Helgekort 2 dager": 649,
-      "Aking": 199,
-      "Langrenn 3 timer": 169,
-      "Langrenn 1 dag": 249,
-      "Langrenn & Alpin Ukedag": 499,
-      "Langrenn & Alpin Helg": 599,
-      "Inngang med utstyr": 299,
-      "Inngang": 199,
-      "Familiebillett": 599,
-      "Klippekort 10 klipp": 1490,
-      "Klippekort Vinterkort": 2990
-    };
+      <div class="summary" id="summaryBox"></div>
 
-    let step = "facilities";
-    let selectedFacility = null;
-    let selectedTicket = null;
-    let counts = { voksen: 1, barn: 0, ungdom: 0 };
-    let keycard = "Eksisterende skikort";
+      <h2>Betalingsmåte</h2>
+      <button class="pay-option sel" id="payVipps" onclick="selectPay('vipps')">
+        <span class="dot vipps">V</span> Vipps
+      </button>
+      <button class="pay-option" id="payKort" onclick="selectPay('kort')">
+        <span class="dot kort">💳</span> Bankkort
+      </button>
 
-    const app = document.getElementById("app");
-    const pageTitle = document.getElementById("pageTitle");
-    const pageIntro = document.getElementById("pageIntro");
-    const backBtn = document.getElementById("backBtn");
+      <button class="cta" id="payBtn" onclick="go(5)"></button>
+    </div>
 
-    backBtn.addEventListener("click", goBack);
+    <!-- STEG 5: Kvittering -->
+    <div id="step5" class="hidden">
+      <div class="confirm">
+        <div class="check">✓</div>
+        <h1>Betaling gjennomført!</h1>
+        <p class="muted" id="receiptText"></p>
+        <div class="qr"></div>
+        <span class="badge">Billetten er lagt til i din profil</span>
+        <p class="muted">Skann QR-koden i heisen eller i resepsjonen</p>
+        <br>
+        <button class="pill" onclick="restart()">Kjøp ny billett</button>
+      </div>
+    </div>
 
-    function setHeader(title, intro, showBack = false) {
-      pageTitle.textContent = title;
-      pageIntro.textContent = intro;
-      backBtn.style.display = showBack ? "inline-block" : "none";
-    }
+    <div class="footer-note">Eksempel-prototype · priser er kun illustrasjon</div>
+  </div>
+</div>
 
-    function card({ icon, title, subtitle, buttonText, onClick, selected }) {
-      const btn = document.createElement("button");
-      btn.className = "card" + (selected ? " selected" : "");
-      btn.onclick = onClick;
-      btn.innerHTML = `
-        <div class="icon">${icon}</div>
-        <div>
-          <div class="card-title">${title}</div>
-          <div class="card-sub">${subtitle}</div>
-        </div>
-        <span class="pill">${buttonText}</span>
-      `;
-      return btn;
-    }
+<script>
+// logo: ekte logo-URL der den finnes – mono: monogram-fallback som vises hvis logo mangler
+const LOGOS = {
+  oslo:      'https://static.wixstatic.com/media/64146b_7842a128e0064b209244eabeba6b3019~mv2.png/v1/fill/w_60,h_60,al_c,q_85/icon.png',
+  drammen:   'https://static.wixstatic.com/media/64146b_3094f1c539bd43329d8a811e34172729~mv2.png/v1/fill/w_60,h_60,al_c,q_85/icon.png',
+  kongsberg: 'https://static.wixstatic.com/media/64146b_b225c7dad8af481381daa85710196b78~mv2.png/v1/fill/w_60,h_60,al_c,q_85/icon.png',
+};
 
-    function renderFacilities() {
-      step = "facilities";
-      selectedFacility = null;
-      selectedTicket = null;
-      setHeader(
-        "Book og kjøp adgang",
-        "Velg først hvilket anlegg kunden skal besøke. Deretter vises kun billettene som gjelder for valgt anlegg.",
-        false
-      );
+const VENUES = [
+  { id:'oslo', name:'Skimore Oslo', icon:'⛷️', desc:'Alpint, kjelke og heiser', tickets:[
+    ['Gjestepass 1 dag', 549], ['Gjestepass 2 dager', 949], ['Gjestepass 3 dager', 1299],
+    ['Gjestepass 1 uke', 2199], ['Kjelke', 149], ['Enkelttur', 99] ]},
+  { id:'drammen', name:'Skimore Drammen', icon:'⛷️', desc:'Alpint og heiser', tickets:[
+    ['Gjestepass 1 dag', 499], ['Gjestepass 2 dager', 899], ['Gjestepass 3 dager', 1199],
+    ['Gjestepass 1 uke', 1999], ['Enkelttur', 89] ]},
+  { id:'kongsberg', name:'Skimore Kongsberg', icon:'⛷️', desc:'Alpint, heiser og Formula G', tickets:[
+    ['Gjestepass 1 dag', 499], ['Gjestepass 2 dager', 899], ['Gjestepass 3 dager', 1199],
+    ['Gjestepass 1 uke', 1999], ['Enkelttur', 89] ]},
+  { id:'kirkerud', name:'Kirkerudbakken', icon:'🎿', desc:'Alpint – dag, halvdag og helg', tickets:[
+    ['Gjestepass 1 dag', 479], ['Formiddag', 329], ['Ettermiddag', 349], ['Helgekort 2 dager', 849] ]},
+  { id:'ingierkollen', name:'Skimore Ingierkollen', icon:'🛷', desc:'Alpint, barnebakke og aking', tickets:[
+    ['Gjestepass 1 dag', 399], ['Gjestepass Barnebakken', 199], ['Aking', 149], ['Enkelttur', 79] ]},
+  { id:'varingskollen', name:'Varingskollen', icon:'⛷️', desc:'Alpint og heiser', tickets:[
+    ['Gjestepass 1 dag', 469], ['Gjestepass 2 dager', 849], ['Gjestepass 3 dager', 1149],
+    ['Gjestepass 1 uke', 1899], ['Enkelttur', 85] ]},
+  { id:'uvdal', name:'Uvdal', icon:'🏔️', desc:'Alpint og heiser', tickets:[
+    ['Gjestepass 1 dag', 449], ['Gjestepass 2 dager', 799], ['Gjestepass 3 dager', 1099],
+    ['Gjestepass 1 uke', 1799], ['Enkelttur', 79] ]},
+  { id:'hovden', name:'Hovden', icon:'🏔️', desc:'Alpint og heiser', tickets:[
+    ['Gjestepass 1 dag', 529], ['Gjestepass 2 dager', 949], ['Gjestepass 3 dager', 1279],
+    ['Gjestepass 1 uke', 2099], ['Enkelttur', 95] ]},
+  { id:'sno', name:'SNØ', icon:'❄️', desc:'Innendørs alpint og langrenn', tickets:[
+    ['Gjestepass Ukedag', 649], ['Gjestepass Helg', 749], ['Langrenn 3 timer', 249],
+    ['Langrenn 1 dag', 349], ['Langrenn & Alpin Ukedag', 799], ['Langrenn & Alpin Helg', 899] ]},
+  { id:'hut', name:'Høyt under taket', mono:'HUT', icon:'🧗', desc:'Innendørs klatring – 4 sentre',
+    locations:['Moss','Skien','Eidsvoll','Tønsberg'], tickets:[
+    ['Inngang med utstyr', 449], ['Inngang', 349], ['Familiebillett', 1199],
+    ['Klippekort 10 klipp', 2999], ['Klippekort Vinterkort', 1999] ]},
+];
 
-      app.innerHTML = `<h2>Velg anlegg</h2>`;
-      facilities.forEach(facility => {
-        app.appendChild(card({
-          icon: facility.icon,
-          title: facility.name,
-          subtitle: facility.subtitle,
-          buttonText: "Velg",
-          onClick: () => renderTickets(facility)
-        }));
-      });
-    }
+const PERSONS = [
+  { id:'voksen', label:'Voksen', sub:'18–66 år', factor:1 },
+  { id:'barn',   label:'Barn',   sub:'7–17 år',  factor:0.8 },
+  { id:'honnor', label:'Honnør', sub:'67+ / ledsager', factor:0.8 },
+];
 
-    function renderTickets(facility) {
-      step = "tickets";
-      selectedFacility = facility;
-      selectedTicket = null;
+let state = { venue:null, location:null, ticket:null, price:0, qty:{voksen:0, barn:0, honnor:0}, pay:'vipps' };
 
-      setHeader(
-        facility.name,
-        "Velg billettype. Denne siden viser kun produkter som gjelder for valgt anlegg.",
-        true
-      );
+const displayName = () => state.location ? `${state.venue.name} ${state.location}` : state.venue.name;
 
-      app.innerHTML = `<div class="categories">${Object.keys(facility.tickets).map(c => `<span class="chip">${c}</span>`).join("")}</div>`;
+const nok = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' kr';
+const fmtDate = iso => { const [y,m,d] = iso.split('-'); return `${d}.${m}.${y}`; };
 
-      Object.entries(facility.tickets).forEach(([category, tickets]) => {
-        const h = document.createElement("h2");
-        h.textContent = category;
-        app.appendChild(h);
+function go(step) {
+  for (let i = 1; i <= 5; i++) document.getElementById('step'+i).classList.toggle('hidden', i !== step);
+  if (step === 4) renderSummary();
+  if (step === 5) {
+    const tot = total();
+    document.getElementById('receiptText').textContent =
+      `${state.ticket} · ${displayName()} · ${fmtDate(document.getElementById('dateInput').value)} · ${nok(tot)}`;
+  }
+}
 
-        tickets.forEach(ticket => {
-          app.appendChild(card({
-            icon: ticketIcon(ticket),
-            title: ticket,
-            subtitle: ticketSubtitle(ticket, facility.name),
-            buttonText: "Kjøp",
-            onClick: () => renderDetails(ticket)
-          }));
-        });
-      });
-    }
+function monogram(name) {
+  return name.replace(/[()&]/g, '').split(/\s+/).filter(w => w && w[0] === w[0].toUpperCase())
+             .map(w => w[0]).join('').slice(0, 3);
+}
 
-    function renderDetails(ticket) {
-      step = "details";
-      selectedTicket = ticket;
-      counts = { voksen: 1, barn: 0, ungdom: 0 };
-      keycard = "Eksisterende skikort";
+function renderVenues() {
+  document.getElementById('venueList').innerHTML = VENUES.map((v,i) => `
+    <button class="card compact ${i < 2 ? 'mid' : ''}" onclick="pickVenue('${v.id}')">
+      <span class="icon">${
+        LOGOS[v.id]
+          ? `<img src="${LOGOS[v.id]}" alt="${v.name}" onerror="this.outerHTML='${v.mono || monogram(v.name)}'">`
+          : (v.mono || monogram(v.name))
+      }</span>
+      <span class="txt"><span class="title">${v.name}</span><br><span class="desc">${v.desc}</span></span>
+    </button>`).join('');
+}
 
-      setHeader(
-        ticket,
-        `${selectedFacility.name} · Velg antall og skikort før betaling.`,
-        true
-      );
+function pickVenue(id) {
+  state.venue = VENUES.find(v => v.id === id);
+  state.location = null;
+  document.getElementById('venueName').textContent = state.venue.name;
+  if (state.venue.locations) {
+    renderLocations();
+  } else {
+    renderTickets();
+  }
+  go(2);
+}
 
-      app.innerHTML = `
-        <div class="details-panel">
-          <label>Antall personer</label>
-          ${counterRow("Voksen", "voksen", "Ordinær billett")}
-          ${counterRow("Barn", "barn", "Barn / junior")}
-          ${counterRow("Ungdom", "ungdom", "Ungdomsbillett")}
+function renderLocations() {
+  document.getElementById('ticketList').innerHTML =
+    `<h2>Velg senter</h2>` +
+    state.venue.locations.map(loc => `
+    <button class="card mid" onclick="pickLocation('${loc}')">
+      <span class="icon">${state.venue.icon}</span>
+      <span class="txt"><span class="title">${state.venue.name} ${loc}</span></span>
+      <span class="pill">Velg</span>
+    </button>`).join('');
+}
 
-          <label for="keycard">Koble til skikort</label>
-          <select id="keycard" onchange="keycard = this.value">
-            <option>Eksisterende skikort</option>
-            <option>Kjøp nytt keycard</option>
-            <option>Hent i billettautomat</option>
-          </select>
+function pickLocation(loc) {
+  state.location = loc;
+  document.getElementById('venueName').textContent = displayName();
+  renderTickets();
+}
 
-          <p class="small-note">
-            Dette er en testflyt. Prisene er kun eksempelpriser og kan byttes ut med riktige priser fra produktregisteret.
-          </p>
-        </div>
+function renderTickets() {
+  document.getElementById('ticketList').innerHTML = state.venue.tickets.map(([t,p]) => `
+    <button class="card" onclick="pickTicket('${t.replace(/'/g,"\\'")}', ${p})">
+      <span class="icon">${state.venue.icon}</span>
+      <span class="txt"><span class="title">${t}</span><br><span class="desc">Fra ${nok(p * 0.8)} (barn/honnør)</span></span>
+      <span class="price">${nok(p)}</span>
+    </button>`).join('');
+}
 
-        <button class="primary" onclick="renderSummary()">Neste</button>
-        <button class="secondary" onclick="renderTickets(selectedFacility)">Velg annen billett</button>
-      `;
-    }
+function pickTicket(t, p) {
+  state.ticket = t; state.price = p;
+  state.qty = { voksen:0, barn:0, honnor:0 };
+  document.getElementById('ticketName').textContent = t;
+  renderQty();
+  go(3);
+}
 
-    function counterRow(label, key, subtitle) {
-      return `
-        <div class="counter-row">
-          <div>
-            <div class="counter-title">${label}</div>
-            <div class="counter-sub">${subtitle}</div>
-          </div>
-          <div class="counter">
-            <button class="round" onclick="changeCount('${key}', -1)">−</button>
-            <div class="count" id="count-${key}">${counts[key]}</div>
-            <button class="round" onclick="changeCount('${key}', 1)">+</button>
-          </div>
-        </div>
-      `;
-    }
+function renderQty() {
+  document.getElementById('qtyList').innerHTML = PERSONS.map(per => `
+    <div class="qty-row">
+      <div class="info">
+        <div class="t">${per.label}</div>
+        <div class="p">${per.sub} · ${nok(state.price * per.factor)}</div>
+      </div>
+      <div class="stepper">
+        <button onclick="chg('${per.id}',-1)">−</button>
+        <span class="n">${state.qty[per.id]}</span>
+        <button onclick="chg('${per.id}',1)">+</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('toPayBtn').disabled = total() === 0;
+}
 
-    function changeCount(key, delta) {
-      counts[key] = Math.max(0, counts[key] + delta);
-      if (counts.voksen + counts.barn + counts.ungdom === 0) {
-        counts.voksen = 1;
-      }
-      document.getElementById(`count-voksen`).textContent = counts.voksen;
-      document.getElementById(`count-barn`).textContent = counts.barn;
-      document.getElementById(`count-ungdom`).textContent = counts.ungdom;
-    }
+function chg(id, d) {
+  state.qty[id] = Math.max(0, Math.min(10, state.qty[id] + d));
+  renderQty();
+}
 
-    function renderSummary() {
-      step = "summary";
-      keycard = document.getElementById("keycard").value;
+function total() {
+  return PERSONS.reduce((s,p) => s + state.qty[p.id] * Math.round(state.price * p.factor), 0);
+}
 
-      const basePrice = priceMap[selectedTicket] || 399;
-      const quantity = counts.voksen + counts.barn + counts.ungdom;
-      const keycardPrice = keycard === "Kjøp nytt keycard" ? 75 * quantity : 0;
-      const total = (counts.voksen * basePrice) + (counts.ungdom * Math.round(basePrice * 0.85)) + (counts.barn * Math.round(basePrice * 0.65)) + keycardPrice;
+function renderSummary() {
+  const rows = PERSONS.filter(p => state.qty[p.id] > 0).map(p =>
+    `<div class="row"><span>${state.qty[p.id]} × ${p.label}</span><span>${nok(state.qty[p.id] * Math.round(state.price * p.factor))}</span></div>`).join('');
+  document.getElementById('summaryBox').innerHTML = `
+    <div class="row"><span>Anlegg</span><span>${displayName()}</span></div>
+    <div class="row"><span>Billett</span><span>${state.ticket}</span></div>
+    <div class="row"><span>Dato</span><span>${fmtDate(document.getElementById('dateInput').value)}</span></div>
+    ${rows}
+    <div class="row total"><span>Totalt</span><span>${nok(total())}</span></div>`;
+  document.getElementById('payBtn').textContent = `Betal ${nok(total())}`;
+}
 
-      setHeader(
-        "Oppsummering",
-        "Kontroller kjøpet før kunden går til betaling.",
-        true
-      );
+function selectPay(p) {
+  state.pay = p;
+  document.getElementById('payVipps').classList.toggle('sel', p === 'vipps');
+  document.getElementById('payKort').classList.toggle('sel', p === 'kort');
+}
 
-      app.innerHTML = `
-        <div class="summary">
-          <div class="summary-row"><span>Anlegg</span><strong>${selectedFacility.name}</strong></div>
-          <div class="summary-row"><span>Billett</span><strong>${selectedTicket}</strong></div>
-          <div class="summary-row"><span>Antall</span><strong>${counts.voksen} voksen · ${counts.barn} barn · ${counts.ungdom} ungdom</strong></div>
-          <div class="summary-row"><span>Skikort</span><strong>${keycard}</strong></div>
-          <div class="summary-row"><span>Produktpris</span><strong>${basePrice} kr</strong></div>
-          ${keycardPrice ? `<div class="summary-row"><span>Keycard</span><strong>${keycardPrice} kr</strong></div>` : ""}
-          <div class="summary-row total"><span>Total</span><strong>${total} kr</strong></div>
-        </div>
+function restart() {
+  state = { venue:null, location:null, ticket:null, price:0, qty:{voksen:0, barn:0, honnor:0}, pay:'vipps' };
+  go(1);
+}
 
-        <button class="primary" onclick="renderSuccess()">Kjøp nå</button>
-        <button class="secondary" onclick="renderDetails(selectedTicket)">Endre detaljer</button>
-      `;
-    }
-
-    function renderSuccess() {
-      step = "success";
-      setHeader(
-        "Kjøpet er fullført",
-        "Billetten er aktivert og kan finnes under Profil > Mine billetter.",
-        true
-      );
-
-      app.innerHTML = `
-        <div class="success">
-          <div class="success-icon">✓</div>
-          <h1>${selectedTicket}</h1>
-          <p class="intro">${selectedFacility.name}</p>
-        </div>
-
-        <div class="summary">
-          <div class="summary-row"><span>Status</span><strong>Aktivert på skikort</strong></div>
-          <div class="summary-row"><span>Skikort</span><strong>${keycard}</strong></div>
-          <div class="summary-row"><span>Vises under</span><strong>Mine billetter</strong></div>
-        </div>
-
-        <button class="primary" onclick="renderFacilities()">Kjøp mer</button>
-        <button class="secondary" onclick="renderTickets(selectedFacility)">Tilbake til ${selectedFacility.name}</button>
-      `;
-    }
-
-    function ticketIcon(ticket) {
-      if (ticket.toLowerCase().includes("langrenn")) return "🎿";
-      if (ticket.toLowerCase().includes("aking") || ticket.toLowerCase().includes("kjelke")) return "🛷";
-      if (ticket.toLowerCase().includes("klipp")) return "🎟️";
-      if (ticket.toLowerCase().includes("familie")) return "👨‍👩‍👧";
-      if (ticket.toLowerCase().includes("inngang")) return "🧗";
-      if (ticket.toLowerCase().includes("enkelttur")) return "🚡";
-      return "⛷️";
-    }
-
-    function ticketSubtitle(ticket, facilityName) {
-      if (ticket.includes("1 dag")) return `Full tilgang én dag i ${facilityName}`;
-      if (ticket.includes("2 dager")) return "Perfekt for helg eller to skidager";
-      if (ticket.includes("3 dager")) return "For deg som skal stå flere dager";
-      if (ticket.includes("1 uke")) return "Tilgang i 7 dager";
-      if (ticket.includes("Enkelttur")) return "Én tur med heis";
-      if (ticket.includes("Formiddag")) return "Tilgang på formiddagen";
-      if (ticket.includes("Ettermiddag")) return "Tilgang på ettermiddagen";
-      if (ticket.includes("Helgekort")) return "To dager i helgen";
-      if (ticket.includes("Langrenn")) return "Langrenn i valgt tidsrom";
-      if (ticket.includes("Alpin")) return "Kombinert tilgang for valgt dagstype";
-      if (ticket.includes("Klippekort")) return "Flere besøk samlet i ett kort";
-      if (ticket.includes("Familiebillett")) return "Billett for familien";
-      return "Velg dato og antall før betaling";
-    }
-
-
-    function goBack() {
-      if (step === "tickets") renderFacilities();
-      else if (step === "details") renderTickets(selectedFacility);
-      else if (step === "summary") renderDetails(selectedTicket);
-      else if (step === "success") renderSummary();
-      else renderFacilities();
-    }
-
-    function resetFlow() {
-      renderFacilities();
-    }
-
-    renderFacilities();
-  </script>
+// init
+const tomorrow = new Date(Date.now() + 86400000);
+document.getElementById('dateInput').value = tomorrow.toISOString().slice(0,10);
+renderVenues();
+</script>
 </body>
 </html>
