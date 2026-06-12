@@ -119,6 +119,77 @@
     font-size: 12px; font-weight: 500; white-space: nowrap;
   }
 
+  /* Adgang: Keycard / mobilbillett */
+  .acc-badge { border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .acc-badge.green { background: var(--green-light); color: var(--green-dark); }
+  .acc-badge.red { background: #FF7777; color: #452024; }
+  .pill.blocked { background: #FF7777; color: #452024; }
+  .pill.activegreen { background: var(--green-light); color: var(--green-dark); }
+  .acc-row {
+    background: var(--grey-1);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 15px;
+  }
+  .acc-row .acc-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .slide-track {
+    position: relative; height: 52px;
+    background: var(--teal-light);
+    border-radius: 999px;
+    margin: 4px 0 12px;
+    overflow: hidden;
+    user-select: none;
+  }
+  .slide-track .slide-label {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500; opacity: .7;
+  }
+  .slide-handle {
+    position: absolute; top: 4px; left: 4px;
+    width: 44px; height: 44px; border-radius: 999px;
+    background: var(--navy); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    cursor: grab; touch-action: none;
+  }
+
+  /* Statistikk */
+  .stat-card {
+    background: var(--teal-light);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .stat-card .s-head { font-weight: 500; font-size: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  .stat-card h2 { margin: 4px 0 2px; font-size: 22px; }
+  .stat-card .s-sub { font-size: 12px; opacity: .75; }
+  .stat-row { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
+  .stat-row.head { font-size: 12px; opacity: .7; border-top: 1px solid var(--teal-mid); margin-top: 10px; padding-top: 10px; }
+  .bars { display: flex; gap: 8px; align-items: flex-end; height: 80px; }
+  .bar { width: 34px; border-radius: 8px; background: var(--teal-mid); }
+  .bar.dark { background: var(--navy); }
+  .res-row {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+  .res-row .r-val { margin-left: auto; font-weight: 500; }
+  .res-row .r-ico {
+    width: 34px; height: 34px; border-radius: 999px;
+    background: var(--teal-light);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .dotgrid { display: grid; grid-template-columns: repeat(13, 1fr); gap: 7px; margin-top: 6px; }
+  .dotg { width: 13px; height: 13px; border-radius: 999px; background: var(--teal-mid); }
+  .dotg.on { background: var(--white); }
+
   /* Mine billetter */
   #tickets { background: var(--white); flex: 1; padding: 20px 16px 24px; overflow-y: auto; min-height: 0; }
   .ticket-card {
@@ -641,11 +712,73 @@
     <div class="member-card">
       <div class="mc-top">
         <h2>Medlemskap</h2>
-        <button class="pill keycard">▯ Keycard</button>
+        <button class="pill keycard" id="keycardPill" onclick="openAccess()">▯ Keycard aktivt</button>
       </div>
       <div class="line">👤 Martin Skimore</div>
       <div class="line">✓ Aktivt</div>
-      <button class="pill stats">📊 Goals &amp; Stats</button>
+      <div class="line" id="accessStatus">▯ Adgang: Keycard</div>
+      <button class="pill stats" onclick="showStats()">📊 Goals &amp; Stats</button>
+    </div>
+  </div>
+
+  <!-- DIN STATISTIKK -->
+  <div id="stats" class="mem-screen hidden">
+    <div class="sheet-header">
+      <h1>Din statistikk <span style="font-size:14px; vertical-align:top;">ⓘ</span></h1>
+      <button class="back" onclick="showHome()">‹ Tilbake</button>
+    </div>
+
+    <div class="stat-card">
+      <div class="s-head">Et overblikk</div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:15px; line-height:1.8;">
+          10 dager<br><b>84 turer</b><br>13 235 meter
+        </div>
+        <div class="bars">
+          <div class="bar" style="height:42px;"></div>
+          <div class="bar dark" style="height:78px;"></div>
+          <div class="bar" style="height:38px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="s-head">🏁 Sluttresultat <span class="pill" style="font-size:12px; padding:6px 14px;">Historikk</span></div>
+      <h2>Skimore Oslo</h2>
+      <div class="s-sub">Daglig rangering 04.03.2026</div>
+      <div class="s-sub">257 deltakere</div>
+      <div class="res-row">
+        <span class="r-ico">🏆</span>
+        <span>Vinner<br><span style="font-size:12px; opacity:.7;">1st 🥇</span></span>
+        <span class="r-val">16 520 m</span>
+      </div>
+      <div class="res-row">
+        <span class="r-ico">🧢</span>
+        <span>Deg<br><span style="font-size:12px; opacity:.7;">#223</span></span>
+        <span class="r-val">799 m</span>
+      </div>
+      <div class="stat-row"><span>Anlegg</span><span>Skimore Oslo</span></div>
+      <div class="stat-row"><span>Deltakere</span><span>257</span></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="s-head">Siste besøk</div>
+      <h2>Onsdag 20. mai 2026</h2>
+      <div class="stat-row"><span>Antall turer</span><span>3</span></div>
+      <div class="stat-row"><span>Høydemeter</span><span>846 m</span></div>
+      <div class="stat-row"><span>Anlegg</span><span>Skimore Drammen</span></div>
+      <div class="stat-row head"><span>Dato</span><span>Turer</span><span>Høydemeter</span></div>
+      <div class="stat-row"><span>18.05.2026</span><span>5</span><span>1 240 m</span></div>
+      <div class="stat-row"><span>02.04.2026</span><span>8</span><span>2 105 m</span></div>
+      <div class="stat-row"><span>04.03.2026</span><span>3</span><span>799 m</span></div>
+      <div class="stat-row"><span>28.02.2026</span><span>12</span><span>3 410 m</span></div>
+      <div class="stat-row"><span>14.02.2026</span><span>9</span><span>2 870 m</span></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="s-head">Aktive dager denne sesongen</div>
+      <div class="dotgrid" id="dotGrid"></div>
+      <div class="s-sub" style="margin-top:12px;">10 av 91 dager · sesongen 2025/2026</div>
     </div>
   </div>
 
@@ -723,11 +856,18 @@
     </div>
     <div class="summary" id="memSummaryBox"></div>
     <div style="display:flex; gap:10px;">
-      <div class="field" style="flex:1;"><label>Betaling</label>Månedlig</div>
-      <div class="field" style="flex:1;"><label>Forfallsdato</label>10. hver måned</div>
+      <button class="field" style="flex:1; text-align:left; border:none; cursor:pointer; font-family:inherit; font-size:15px; color:var(--navy);" onclick="toggleMemPayMode()">
+        <label style="cursor:pointer;">Betaling ⇄</label><span id="memPayModeTxt">Månedlig</span>
+      </button>
+      <button class="field" style="flex:1; text-align:left; border:none; cursor:pointer; font-family:inherit; font-size:15px; color:var(--navy);" onclick="openDueDialog()">
+        <label style="cursor:pointer;">Forfallsdato ▾</label><span id="memDueTxt">10. hver måned</span>
+      </button>
     </div>
-    <button class="pay-option sel">
-      <span class="dot vipps">V</span> Vipps <span style="margin-left:auto;" class="pill">Endre</span>
+    <button class="pay-option sel" id="memVipps" onclick="selectMemPay('vipps')">
+      <span class="dot vipps">V</span> Vipps
+    </button>
+    <button class="pay-option" id="memKort" onclick="selectMemPay('kort')">
+      <span class="dot kort">💳</span> Bankkort
     </button>
     <div class="vilkar-row">
       <button class="switch" id="vilkarSwitch" onclick="toggleVilkar()"></button>
@@ -748,6 +888,28 @@
       <p class="muted">Keycard hentes i resepsjonen ved første besøk</p>
       <br>
       <button class="pill" onclick="memReset(); showHome()">Til hovedmeny</button>
+    </div>
+  </div>
+
+  <!-- DIALOG: velg adgang (Keycard / mobilbillett) -->
+  <div id="accessDialog" class="overlay hidden">
+    <div class="dialog left">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="margin:0;">Velg adgang</h3>
+        <button class="close" onclick="closeAccess()">✕</button>
+      </div>
+      <div id="accessBody"></div>
+    </div>
+  </div>
+
+  <!-- DIALOG: velg forfallsdato -->
+  <div id="dueDialog" class="overlay hidden">
+    <div class="dialog left">
+      <h3>Velg forfallsdato</h3>
+      <div id="dueList"></div>
+      <div class="d-actions" style="margin-top:14px;">
+        <button class="confirm-btn" style="width:100%;" onclick="confirmDue()">Bekreft</button>
+      </div>
     </div>
   </div>
 
@@ -1242,10 +1404,111 @@ function doRedeem() {
 }
 
 // ---- Medlemskap ----
-const MEM = { type:'enkelt', persons:[], vilkar:false };
+const MEM = { type:'enkelt', persons:[], vilkar:false, payMode:'mnd', due:'10.', payMethod:'vipps' };
 let tmpKeycard = 'ny', tmpCard = null, pickedCard = 0;
 const EXISTING_CARDS = ['1-16147159923260168730-6', '1-16147159923315924959-8', '1-16147159923409273036-3'];
-const MEM_SCREENS = ['home','homeGuest','coupons','booking','tickets','memType','memPersons','memSummary','memDone'];
+const MEM_SCREENS = ['home','homeGuest','coupons','booking','tickets','stats','memType','memPersons','memSummary','memDone'];
+
+// ---- Adgang: Keycard / mobilbillett ----
+let mobilAktiv = false;      // mobilbillett aktivert?
+let velgerMobil = false;     // viser sveip-slideren?
+
+function openAccess() {
+  velgerMobil = false;
+  renderAccess();
+  document.getElementById('accessDialog').classList.remove('hidden');
+}
+function closeAccess() { document.getElementById('accessDialog').classList.add('hidden'); }
+
+function renderAccess() {
+  const body = document.getElementById('accessBody');
+  body.innerHTML = `
+    <div class="acc-row">
+      <span>▯</span><span>Keycard</span>
+      <span class="acc-right">
+        ${mobilAktiv
+          ? '<span class="acc-badge red">🚫 Blokkert</span><button class="pill" onclick="reaktiverKeycard()">Reaktiver</button>'
+          : '<span class="acc-badge green">Aktivt</span>'}
+      </span>
+    </div>
+    <div class="acc-row">
+      <span>📱</span><span>Mobilbillett</span>
+      <span class="acc-right">
+        ${mobilAktiv
+          ? '<span class="acc-badge green">Aktiv</span>'
+          : (velgerMobil ? '' : '<button class="pill" onclick="velgerMobil=true;renderAccess()">Velg</button>')}
+      </span>
+    </div>
+    ${(!mobilAktiv && velgerMobil) ? `
+    <div class="slide-track" id="slideTrack">
+      <span class="slide-label">Sveip for å aktivere mobilbillett&nbsp;→</span>
+      <div class="slide-handle" id="slideHandle">›</div>
+    </div>
+    <div style="font-size:11.5px; opacity:.7;">Når mobilbilletten aktiveres blir Keycardet ditt blokkert.</div>` : ''}
+    ${mobilAktiv ? '<div style="font-size:11.5px; opacity:.7;">Mobilbilletten er aktiv – Keycardet er blokkert og kan ikke lenger brukes.</div>' : ''}`;
+  if (!mobilAktiv && velgerMobil) bindSlider();
+}
+
+function bindSlider() {
+  const track = document.getElementById('slideTrack');
+  const handle = document.getElementById('slideHandle');
+  let startX = null;
+  const maxX = () => track.clientWidth - handle.offsetWidth - 8;
+
+  handle.addEventListener('pointerdown', e => {
+    startX = e.clientX - (parseFloat(handle.style.left) || 4);
+    handle.setPointerCapture(e.pointerId);
+  });
+  handle.addEventListener('pointermove', e => {
+    if (startX === null) return;
+    const x = Math.max(4, Math.min(maxX(), e.clientX - startX));
+    handle.style.left = x + 'px';
+  });
+  handle.addEventListener('pointerup', () => {
+    const x = parseFloat(handle.style.left) || 4;
+    if (x >= maxX() * 0.85) {
+      mobilAktiv = true;
+      updateAccessUI();
+      renderAccess();
+    } else {
+      handle.style.left = '4px'; // ikke langt nok – glir tilbake
+    }
+    startX = null;
+  });
+}
+
+function reaktiverKeycard() {
+  mobilAktiv = false;
+  velgerMobil = false;
+  updateAccessUI();
+  renderAccess();
+}
+
+function updateAccessUI() {
+  const pill = document.getElementById('keycardPill');
+  const status = document.getElementById('accessStatus');
+  if (mobilAktiv) {
+    pill.textContent = '📱 Mobilbillett aktiv';
+    pill.classList.add('activegreen');
+    pill.classList.remove('blocked');
+    status.innerHTML = '<span style="color:#FF7777;">🚫 Keycard blokkert</span>';
+  } else {
+    pill.textContent = '▯ Keycard aktivt';
+    pill.classList.remove('activegreen', 'blocked');
+    status.textContent = '▯ Adgang: Keycard';
+  }
+}
+
+// ---- Statistikk ----
+const ACTIVE_DAYS = [1, 8, 14, 23, 31, 42, 50, 63, 77, 85]; // 10 aktive dager
+function showStats() {
+  const grid = document.getElementById('dotGrid');
+  if (!grid.children.length) {
+    grid.innerHTML = Array.from({ length: 91 }, (_, i) =>
+      `<span class="dotg ${ACTIVE_DAYS.includes(i) ? 'on' : ''}"></span>`).join('');
+  }
+  memGo('stats');
+}
 
 // ---- Mine billetter ----
 const MY_TICKETS = [];
@@ -1401,22 +1664,64 @@ function renderPersons() {
 }
 
 const memMonthly = () => MEM.type === 'familie' ? 799 : MEM.persons.reduce((s, p) => s + monthlyFor(p.age), 0);
+const memYearly = () => memMonthly() * 12;
 const memKeycards = () => MEM.persons.filter(p => p.keycard === 'ny').length;
-const memTotalNow = () => memMonthly() + memKeycards() * 75;
+const memTotalNow = () => (MEM.payMode === 'år' ? memYearly() : memMonthly()) + memKeycards() * 75;
 
-function memSummary() {
+function renderMemSummaryBox() {
+  const f = MEM.payMode === 'år' ? 12 : 1;
+  const suffix = MEM.payMode === 'år' ? 'kr/år' : 'kr/mnd';
   const rows = MEM.type === 'familie'
-    ? `<div class="row"><span>Familiemedlemskap</span><span>799 kr/mnd</span></div>` +
+    ? `<div class="row"><span>Familiemedlemskap</span><span>${799 * f} ${suffix}</span></div>` +
       MEM.persons.map(p => `<div class="row"><span>${p.navn} (${p.age} år, ${ageLabel(p.age)})</span><span></span></div>`).join('')
     : MEM.persons.map(p =>
-      `<div class="row"><span>Enkeltmedlem – ${p.navn} (${p.age} år, ${ageLabel(p.age)})</span><span>${monthlyFor(p.age)} kr/mnd</span></div>`).join('');
+      `<div class="row"><span>Enkeltmedlem – ${p.navn} (${p.age} år, ${ageLabel(p.age)})</span><span>${monthlyFor(p.age) * f} ${suffix}</span></div>`).join('');
   document.getElementById('memSummaryBox').innerHTML = rows +
     (memKeycards() ? `<div class="row"><span>Keycard × ${memKeycards()}</span><span>${nok(memKeycards() * 75)}</span></div>` : '') +
+    `<div class="row"><span>Totalpris</span><span>${nok(memYearly())} /år</span></div>` +
     `<div class="row total"><span>Totalt å betale nå</span><span>${nok(memTotalNow())}</span></div>`;
+  document.getElementById('memPayModeTxt').textContent = MEM.payMode === 'år' ? 'Årlig' : 'Månedlig';
+  document.getElementById('memDueTxt').textContent =
+    MEM.payMode === 'år' ? `${MEM.due} (én gang i året)` : `${MEM.due} hver måned`;
+  updatePayBtn();
+}
+
+function memSummary() {
   MEM.vilkar = false;
   document.getElementById('vilkarSwitch').classList.remove('on');
-  updatePayBtn();
+  selectMemPay(MEM.payMethod);
+  renderMemSummaryBox();
   memGo('memSummary');
+}
+
+function toggleMemPayMode() {
+  MEM.payMode = MEM.payMode === 'år' ? 'mnd' : 'år';
+  renderMemSummaryBox();
+}
+
+function selectMemPay(p) {
+  MEM.payMethod = p;
+  document.getElementById('memVipps').classList.toggle('sel', p === 'vipps');
+  document.getElementById('memKort').classList.toggle('sel', p === 'kort');
+}
+
+const DUE_DATES = ['01.', '05.', '10.', '15.', '20.'];
+let tmpDue = '10.';
+function openDueDialog() {
+  tmpDue = MEM.due;
+  renderDueList();
+  document.getElementById('dueDialog').classList.remove('hidden');
+}
+function renderDueList() {
+  document.getElementById('dueList').innerHTML = DUE_DATES.map(d => `
+    <button class="radio-row ${d === tmpDue ? 'sel' : ''}" onclick="tmpDue='${d}';renderDueList()">
+      <span class="radio-dot"></span> ${d} ${MEM.payMode === 'år' ? '(årlig)' : 'hver måned'}
+    </button>`).join('');
+}
+function confirmDue() {
+  MEM.due = tmpDue;
+  document.getElementById('dueDialog').classList.add('hidden');
+  renderMemSummaryBox();
 }
 
 function toggleVilkar() {
@@ -1439,6 +1744,7 @@ function memPay() {
 
 function memReset() {
   MEM.type = 'enkelt'; MEM.persons = []; MEM.vilkar = false;
+  MEM.payMode = 'mnd'; MEM.due = '10.'; MEM.payMethod = 'vipps';
   selectMemType('enkelt');
   renderPersons();
 }
