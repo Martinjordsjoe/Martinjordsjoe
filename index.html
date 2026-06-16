@@ -1133,7 +1133,17 @@ const ICONS = {
     </g>
     <circle cx="19" cy="12" r="1" fill="#A6D1D6"/>
     <circle cx="5" cy="10" r="1" fill="#A6D1D6"/>
-    <circle cx="17" cy="19" r="1" fill="#A6D1D6"/></svg>`
+    <circle cx="17" cy="19" r="1" fill="#A6D1D6"/></svg>`,
+  ake: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="8.5" cy="5.5" r="2.2" fill="#60AFBB"/>
+    <g fill="none" stroke="#202945" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.5 8l2.5 3"/>
+      <path d="M11 11l5 1.5"/>
+      <path d="M6 15.5h12.5"/>
+      <path d="M18.5 15.5c1.6 0 2.4-1 2.6-2"/>
+    </g>
+    <circle cx="4.5" cy="11" r="1" fill="#A6D1D6"/>
+    <circle cx="20" cy="19" r="1" fill="#A6D1D6"/></svg>`
 };
 
 // Billettformat: [navn, pris, gruppe]
@@ -1152,8 +1162,7 @@ const VENUES = [
     ['Gjestepass 2 dager', SKIMORE_PRISER.dag2, 'Flerdagers kort'],
     ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'],
     ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
-    ['Enkelttur', SKIMORE_PRISER.enkelt, 'Enkelttur'],
-    ['Kjelke', 149, 'Andre aktiviteter'] ]},
+    ['Enkelttur', SKIMORE_PRISER.enkelt, 'Enkelttur'] ]},
   { id:'drammen', name:'Skimore Drammen', icon:'ski', desc:'Alpint og heiser', tickets:[
     ['Gjestepass 1 dag', SKIMORE_PRISER.dag1, 'Gjestepass'],
     ['Gjestepass 2 dager', SKIMORE_PRISER.dag2, 'Flerdagers kort'], ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'], ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
@@ -1162,10 +1171,10 @@ const VENUES = [
     ['Gjestepass 1 dag', SKIMORE_PRISER.dag1, 'Gjestepass'],
     ['Gjestepass 2 dager', SKIMORE_PRISER.dag2, 'Flerdagers kort'], ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'], ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
     ['Enkelttur', SKIMORE_PRISER.enkelt, 'Enkelttur'] ]},
-  { id:'kirkerud', name:'Kirkerudbakken', icon:'ski', desc:'Alpint – dag, halvdag og helg', tickets:[
-    ['Gjestepass 1 dag', 479, 'Gjestepass'],
-    ['Formiddag', 329, 'Halvdagskort'], ['Ettermiddag', 349, 'Halvdagskort'],
-    ['Helgekort 2 dager', 849, 'Flerdagers kort'] ]},
+  { id:'uvdal', name:'Uvdal', icon:'ski', desc:'Alpint og heiser', tickets:[
+    ['Gjestepass 1 dag', 449, 'Gjestepass'],
+    ['Gjestepass 2 dager', 799, 'Flerdagers kort'], ['Gjestepass 3 dager', 1099, 'Flerdagers kort'], ['Gjestepass 1 uke', 1799, 'Flerdagers kort'],
+    ['Enkelttur', 79, 'Enkelttur'] ]},
   { id:'ingierkollen', name:'Skimore Ingierkollen', icon:'ski', desc:'Alpint, barnebakke og aking', tickets:[
     ['Gjestepass 1 dag', 399, 'Gjestepass'], ['Gjestepass Barnebakken', 199, 'Gjestepass'],
     ['Enkelttur', 79, 'Enkelttur'],
@@ -1174,14 +1183,17 @@ const VENUES = [
     ['Gjestepass 1 dag', 469, 'Gjestepass'],
     ['Gjestepass 2 dager', 849, 'Flerdagers kort'], ['Gjestepass 3 dager', 1149, 'Flerdagers kort'], ['Gjestepass 1 uke', 1899, 'Flerdagers kort'],
     ['Enkelttur', 85, 'Enkelttur'] ]},
-  { id:'uvdal', name:'Uvdal', icon:'ski', desc:'Alpint og heiser', tickets:[
-    ['Gjestepass 1 dag', 449, 'Gjestepass'],
-    ['Gjestepass 2 dager', 799, 'Flerdagers kort'], ['Gjestepass 3 dager', 1099, 'Flerdagers kort'], ['Gjestepass 1 uke', 1799, 'Flerdagers kort'],
-    ['Enkelttur', 79, 'Enkelttur'] ]},
+  { id:'kirkerud', name:'Kirkerudbakken', icon:'ski', desc:'Alpint – dag, halvdag og helg', tickets:[
+    ['Gjestepass 1 dag', 479, 'Gjestepass'],
+    ['Formiddag', 329, 'Halvdagskort'], ['Ettermiddag', 349, 'Halvdagskort'],
+    ['Helgekort 2 dager', 849, 'Flerdagers kort'] ]},
   { id:'hovden', name:'Hovden', icon:'ski', desc:'Alpint og heiser', tickets:[
     ['Gjestepass 1 dag', 529, 'Gjestepass'],
     ['Gjestepass 2 dager', 949, 'Flerdagers kort'], ['Gjestepass 3 dager', 1279, 'Flerdagers kort'], ['Gjestepass 1 uke', 2099, 'Flerdagers kort'],
     ['Enkelttur', 95, 'Enkelttur'] ]},
+  { id:'kjelke', name:'Kjelke', icon:'ake', desc:'Kjelkebakke for liten og stor', tickets:[
+    ['Kjelke liten (under 160 cm)', 115, 'Kjelke'],
+    ['Kjelke stor (over 160 cm)', 150, 'Kjelke'] ]},
   { id:'sno', name:'SNØ', icon:'ski', desc:'Innendørs alpint og langrenn', tickets:[
     ['Gjestepass Ukedag', 649, 'Gjestepass'], ['Gjestepass Helg', 749, 'Gjestepass'],
     ['Langrenn 3 timer', 249, 'Langrenn'], ['Langrenn 1 dag', 349, 'Langrenn'],
