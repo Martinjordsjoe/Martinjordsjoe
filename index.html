@@ -665,6 +665,24 @@
   }
   .muted { font-size: 13px; opacity: .7; margin-top: 8px; }
 
+  /* Språkvelger NO/EN */
+  .langtoggle {
+    display: flex; gap: 2px;
+    background: var(--white);
+    border-radius: 999px;
+    padding: 3px;
+    box-shadow: 0 1px 3px rgba(32,41,69,.12);
+  }
+  .lang-opt {
+    border: none; background: transparent;
+    color: var(--navy); font-family: inherit;
+    font-size: 12px; font-weight: 500;
+    padding: 5px 9px; border-radius: 999px;
+    cursor: pointer; line-height: 1;
+  }
+  .lang-opt.on { background: var(--navy); color: var(--white); }
+  .hero-right { display: flex; align-items: center; gap: 8px; }
+
   .hidden { display: none !important; }
   .footer-note {
     text-align: center; font-size: 11px; color: var(--teal-mid);
@@ -681,24 +699,29 @@
     <div class="hero small">
       <div class="hero-top">
         <div class="logo">SKIM<span>O</span>RE</div>
-        <button class="profile" style="border:none; cursor:pointer; font-family:inherit;" onclick="logIn()">Logg inn&nbsp;👤</button>
+        <div class="hero-right">
+          <div class="langtoggle">
+            <button class="lang-opt on" data-lang="no" onclick="setLang('no')">NO</button>
+            <button class="lang-opt" data-lang="en" onclick="setLang('en')">EN</button>
+          </div>
+          <button class="profile" style="border:none; cursor:pointer; font-family:inherit;" onclick="logIn()">Logg inn 👤</button>
+        </div>
       </div>
       <div class="hei">Velkommen ut</div>
     </div>
 
     <button class="home-btn dark hidden" id="myTicketsBtnG" onclick="showTickets()">
-      <span>🎟️&nbsp; Vis mine billetter (<span id="tCountG">0</span>)</span>
+      <span id="ticketsLblG">🎟️&nbsp; Vis mine billetter (0)</span>
       <span class="pill">Vis</span>
     </button>
-    <button class="home-btn mid" onclick="showBooking()">🎟️&nbsp; Kjøp gjestepass</button>
+    <button class="home-btn mid" onclick="showBooking()">🎟️ Kjøp gjestepass</button>
 
     <div class="member-card">
       <h2>Medlemskap</h2>
       <div class="line" style="font-weight:500;">Inkluderer tilgang til</div>
-      <div class="line">📍 Skimore Oslo, Drammen og Kongsberg</div>
-      <div class="line">➕ Varingskollen, Bærums Skisenter – Kirkerudbakken og Skimore Ingierkollen</div>
+      <div class="line">🏙️ Skimore Oslo, Drammen, Kongsberg, Ingierkollen, Varingskollen og Kirkerudbakken</div>
       <div class="line">🏔️ Uvdal og Hovden</div>
-      <div class="line">❄️ SNØ – innendørs alpint og langrenn</div>
+      <div class="line">❄️ SNØ – Helårs innendørs alpint og langrenn</div>
       <div class="line">🧗 Høyt under taket – Moss, Skien, Eidsvoll og Tønsberg</div>
       <div class="line">🚡 Alle heiser hele året</div>
       <div class="line">🚲 Bikepark</div>
@@ -715,17 +738,23 @@
     <div class="hero">
       <div class="hero-top">
         <div class="logo">SKIM<span>O</span>RE</div>
-        <div class="profile">Profil&nbsp;🙂</div>
+        <div class="hero-right">
+          <div class="langtoggle">
+            <button class="lang-opt on" data-lang="no" onclick="setLang('no')">NO</button>
+            <button class="lang-opt" data-lang="en" onclick="setLang('en')">EN</button>
+          </div>
+          <div class="profile">Profil 🙂</div>
+        </div>
       </div>
       <div class="hei">Hei, Martin!</div>
     </div>
     <button class="home-btn dark hidden" id="myTicketsBtnM" onclick="showTickets()">
-      <span>🎟️&nbsp; Vis mine billetter (<span id="tCountM">0</span>)</span>
+      <span id="ticketsLblM">🎟️&nbsp; Vis mine billetter (0)</span>
       <span class="pill">Vis</span>
     </button>
-    <button class="home-btn mid" onclick="showBooking()">＋&nbsp; Book flere aktiviteter</button>
+    <button class="home-btn mid" onclick="showBooking()">＋ Book flere aktiviteter</button>
     <button class="home-btn dark" onclick="showCoupons()">
-      <span>🎁&nbsp; <span id="couponCount">5</span> kuponger</span>
+      <span id="couponLbl">🎁&nbsp; 5 kuponger</span>
       <span class="pill">Vis</span>
     </button>
     <div class="member-card">
@@ -857,7 +886,7 @@
       <h1>Nytt medlemskap</h1>
       <button class="back" onclick="memGo('memType')">‹ Tilbake</button>
     </div>
-    <button class="add-person" onclick="openPersonDialog()">＋ &nbsp;Legg til person</button>
+    <button class="add-person" onclick="openPersonDialog()">＋ Legg til person</button>
     <div id="personList"></div>
     <div class="note">
       Når du handler for andre, ikke bruk ditt mobilnummer på brukerne. Mobilnummer er ikke påkrevd
@@ -1013,7 +1042,13 @@
   <div id="booking" class="hidden" style="display:flex; flex-direction:column; flex:1;">
   <div class="appbar">
     <div class="logo">SKIM<span>O</span>RE</div>
-    <div class="profile">Profil&nbsp;🙂</div>
+    <div class="hero-right">
+      <div class="langtoggle">
+        <button class="lang-opt on" data-lang="no" onclick="setLang('no')">NO</button>
+        <button class="lang-opt" data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
+      <div class="profile">Profil 🙂</div>
+    </div>
   </div>
 
   <div class="sheet">
@@ -1026,7 +1061,7 @@
       </div>
       <div class="step-label">Steg 1 av 4 – Velg anlegg</div>
       <div class="steps"><div class="done"></div><div></div><div></div><div></div></div>
-      <button class="card mid" style="margin-bottom:14px;" onclick="startMembership()">
+      <button class="card" style="margin-bottom:14px; background:var(--navy); color:var(--white);" onclick="startMembership()">
         <span class="icon">🎫</span>
         <span class="txt">
           <span class="title">Medlemskap</span><br>
@@ -1112,6 +1147,214 @@
 </div>
 
 <script>
+// ===== Språk (NO/EN) =====
+let LANG = 'no';
+const DICT = {
+  // Navigasjon / generelt
+  'Tilbake':'Back', 'Velg':'Select', 'Vis':'View', 'Avbryt':'Cancel', 'Bekreft':'Confirm', 'Les mer':'Read more',
+  'Steg':'Step', 'av':'of', 'Fra':'From', 'fra':'from', 'dager':'days', 'år':'yrs',
+  // Forside (gjest)
+  'Logg inn 👤':'Log in 👤', 'Velkommen ut':'Welcome outside',
+  'Medlemskap':'Membership', 'Inkluderer tilgang til':'Includes access to',
+  '🏙️ Skimore Oslo, Drammen, Kongsberg, Ingierkollen, Varingskollen og Kirkerudbakken':'🏙️ Skimore Oslo, Drammen, Kongsberg, Ingierkollen, Varingskollen and Kirkerudbakken',
+  '🏔️ Uvdal og Hovden':'🏔️ Uvdal and Hovden',
+  '❄️ SNØ – Helårs innendørs alpint og langrenn':'❄️ SNØ – Year-round indoor alpine & cross-country',
+  '🧗 Høyt under taket – Moss, Skien, Eidsvoll og Tønsberg':'🧗 Høyt under taket – Moss, Skien, Eidsvoll and Tønsberg',
+  '🚡 Alle heiser hele året':'🚡 All lifts all year round',
+  '🚲 Bikepark':'🚲 Bike park', '＋ Og mye mer':'＋ And much more',
+  '289 kr/mnd':'289 kr/month', '(3 468 kr/år)':'(3 468 kr/year)', 'Kjøp medlemskap':'Buy membership',
+  '🎟️ Kjøp gjestepass':'🎟️ Buy guest pass',
+  // Forside (medlem)
+  'Profil 🙂':'Profile 🙂', 'Hei, Martin!':'Hi, Martin!', '＋ Book flere aktiviteter':'＋ Book more activities',
+  'Vis mine billetter':'View my tickets', 'kuponger':'coupons',
+  '▯ Keycard aktivt':'▯ Keycard active', '✓ Aktivt':'✓ Active', '▯ Adgang: Keycard':'▯ Access: Keycard',
+  // Statistikk
+  'Din statistikk':'Your statistics', 'Et overblikk':'An overview',
+  '10 dager':'10 days', '84 turer':'84 runs', '13 235 meter':'13 235 metres',
+  '🏁 Sluttresultat':'🏁 Final result', 'Historikk':'History',
+  'Daglig rangering 04.03.2026':'Daily ranking 04.03.2026', '257 deltakere':'257 participants',
+  'Vinner':'Winner', 'Deg':'You', 'Anlegg':'Venue', 'Deltakere':'Participants',
+  'Siste besøk':'Last visit', 'Onsdag 20. mai 2026':'Wednesday 20 May 2026',
+  'Antall turer':'Number of runs', 'Høydemeter':'Vertical metres', 'Dato':'Date', 'Turer':'Runs',
+  'Aktive dager denne sesongen':'Active days this season',
+  '10 av 91 dager · sesongen 2025/2026':'10 of 91 days · 2025/2026 season',
+  // Mine billetter
+  'Mine billetter':'My tickets',
+  'Skann QR-koden i heisen eller resepsjonen':'Scan the QR code at the lift or reception',
+  'Gyldig 1 valgfri dag gjennom sesongen':'Valid 1 day of your choice during the season',
+  // Kuponger
+  'Mine kuponger':'My coupons', 'Inkludert i ditt medlemskap':'Included in your membership',
+  'Gratis vaffel med brunost':'Free waffle with brown cheese',
+  'Du har fortjent en pause! Gjelder i kafeen i alle Skimore-anlegg.':"You've earned a break! Valid in the café at all Skimore venues.",
+  '2 for 1 på kjelke':'2 for 1 on sledding',
+  'Ta med en venn ned Korketrekkeren – dere deler regningen, ikke kjelken. Gjelder Skimore Oslo.':"Bring a friend down the Corkscrew – share the bill, not the sled. Valid at Skimore Oslo.",
+  '20 % på skileie':'20% off ski rental',
+  'Glemte du skiene hjemme? Vi sier ikke det videre. Gjelder alle Skimore-anlegg.':"Forgot your skis at home? We won't tell. Valid at all Skimore venues.",
+  'Gratis prøvetime klatring':'Free climbing trial session',
+  'Test veggene hos Høyt under taket – Moss, Skien, Eidsvoll eller Tønsberg.':'Try the walls at Høyt under taket – Moss, Skien, Eidsvoll or Tønsberg.',
+  '50 kr rabatt på Formula G':'50 kr off Formula G',
+  'Full fart i Kongsberg! Rabatten trekkes fra ved booking.':'Full speed in Kongsberg! Discount applied at booking.',
+  'Gyldig ut sesongen':'Valid through the season', 'Gyldig ut 2026':'Valid through 2026',
+  'Innløst ✓':'Redeemed ✓', 'Løs inn':'Redeem',
+  'Kupong':'Coupon', 'sveip eller trykk pilene':'swipe or use the arrows',
+  'Løse inn kupong?':'Redeem coupon?',
+  'Er du sikker på at du vil løse inn denne kupongen? Innløsningen kan ikke angres.':'Are you sure you want to redeem this coupon? This cannot be undone.',
+  'Er du sikker på at du vil løse inn':'Are you sure you want to redeem',
+  'Innløsningen kan ikke angres.':'This cannot be undone.',
+  // Medlemskap – type
+  'Ett Skimore årsmedlemskap gir deg tilgang til våre ski- og aktivitetsanlegg – sommer og vinter.':'A Skimore annual membership gives you access to our ski and activity venues – summer and winter.',
+  '📍 Skimore Oslo, Drammen og Kongsberg':'📍 Skimore Oslo, Drammen and Kongsberg',
+  '➕ Varingskollen, Bærums Skisenter – Kirkerudbakken og Skimore Ingierkollen':'➕ Varingskollen, Bærums Skisenter – Kirkerudbakken and Skimore Ingierkollen',
+  '❄️ SNØ – innendørs alpint og langrenn':'❄️ SNØ – indoor alpine & cross-country',
+  'Velg medlemskap':'Choose membership',
+  'Enkeltmedlem':'Single member', 'Knøtt 119,-/mnd · 7–79 år 289,-/mnd':'Toddler 119,-/mo · age 7–79 289,-/mo',
+  'fra 119,- /måned':'from 119,- /month',
+  'Familiemedlemskap':'Family membership', 'Inntil 2 foreldre og 3 barn':'Up to 2 adults and 3 children',
+  'fra 799,- /måned':'from 799,- /month',
+  'Kjøp enkeltmedlemskap':'Buy single membership', 'Kjøp familiemedlemskap':'Buy family membership',
+  // Medlemskap – personer
+  'Nytt medlemskap':'New membership', '＋ Legg til person':'＋ Add person',
+  'Når du handler for andre, ikke bruk ditt mobilnummer på brukerne. Mobilnummer er ikke påkrevd for de under 16 år. Det er ikke mulig å legge til familiemedlemmer i etterkant. For andre spørsmål eller hjelp, ta kontakt med oss:':'When buying for others, do not use your own mobile number for the users. A mobile number is not required for those under 16. Family members cannot be added later. For other questions or help, contact us:',
+  'Fyll ut alle påkrevde felter':'Fill in all required fields', 'Til oppsummering':'To summary',
+  'Mobil (påkrevet for 16+)':'Mobile (required for 16+)', 'Fornavn':'First name', 'Etternavn':'Last name',
+  'Fødselsdato (DD.MM.ÅÅÅÅ)':'Date of birth (DD.MM.YYYY)',
+  'Nytt Keycard (+ 75 kr)':'New Keycard (+ 75 kr)', 'Har Keycard':'Has Keycard',
+  'Endre':'Change', 'Legg til person':'Add person',
+  'Velg Keycard':'Select Keycard', 'Trenger Keycard (+ 75 kr)':'Needs Keycard (+ 75 kr)',
+  // Medlemskap – sammendrag
+  'Sammendrag':'Summary', 'Betaling ⇄':'Payment ⇄', 'Forfallsdato ▾':'Due date ▾',
+  'Månedlig':'Monthly', 'Årlig':'Annual', 'Bankkort':'Card',
+  'Skimore vilkår og betingelser gjelder for dette kjøpet.':'Skimore terms and conditions apply to this purchase.',
+  'Bekreft og betal':'Confirm and pay',
+  'Totalpris':'Total price', '/år':'/year', 'Totalt å betale nå':'Total to pay now',
+  'Totalt':'Total', '(én gang i året)':'(once a year)', 'hver måned':'per month', '(årlig)':'(annual)',
+  'kr/år':'kr/year', 'kr/mnd':'kr/month',
+  'Velg forfallsdato':'Select due date',
+  // Medlemskap – kvittering
+  'Velkommen som medlem!':'Welcome as a member!',
+  'Enkeltmedlemskap':'Single membership', 'person':'person', 'personer':'people', '/mnd':'/mo',
+  'Medlemskapet er aktivt fra i dag':'Membership active from today',
+  'Keycard hentes i resepsjonen ved første besøk':'Pick up your Keycard at reception on your first visit',
+  'Til hovedmeny':'To main menu',
+  // Adgang
+  'Velg adgang':'Select access', 'Mobilbillett':'Mobile ticket', 'Aktivt':'Active', 'Aktiv':'Active',
+  'Blokkert':'Blocked', 'Reaktiver':'Reactivate',
+  'Sveip for å aktivere mobilbillett':'Swipe to activate mobile ticket',
+  'Når mobilbilletten aktiveres blir Keycardet ditt blokkert.':'When the mobile ticket is activated, your Keycard will be blocked.',
+  'Mobilbilletten er aktiv – Keycardet er blokkert og kan ikke lenger brukes.':'The mobile ticket is active – your Keycard is blocked and can no longer be used.',
+  'Mobilbillett aktiv':'Mobile ticket active', 'Keycard blokkert':'Keycard blocked',
+  'Keycard aktivt':'Keycard active', 'Adgang: Keycard':'Access: Keycard',
+  // Kalender
+  'Velg dager (2–7)':'Select days (2–7)', 'Trykk på første og siste dag':'Tap the first and last day',
+  'Velg antall billetter':'Choose number of tickets',
+  'Start':'Start', 'velg siste dag':'select last day',
+  'Maks 7 dager – perioden er kortet ned':'Max 7 days – period shortened',
+  // Booking
+  'Book og kjøp adgang':'Book and buy access',
+  'Velg anlegg':'Select venue', 'Velg billett':'Select ticket', 'Antall':'Quantity', 'Oppsummering':'Summary',
+  'Gyldig i alle anleggene fra 289 kr/mnd (3 468 kr/år)':'Valid at all venues from 289 kr/month (3 468 kr/year)',
+  'Kjøp':'Buy',
+  'Velg dager i kalenderen':'Choose days in the calendar',
+  '2–7 dager · fra':'2–7 days · from', '(voksen, 2 dager)':'(adult, 2 days)',
+  'Gyldighet':'Validity',
+  'Billetter kan brukes 1 valgfri dag gjennom sesongen':'Tickets can be used on 1 day of your choice during the season',
+  'Hvem skal ha billett?':'Who needs a ticket?', 'Til betaling':'To payment',
+  'Betaling':'Payment', 'Betalingsmåte':'Payment method', 'Billett':'Ticket',
+  '1 valgfri dag i sesongen':'1 day of your choice in the season', 'Betal':'Pay',
+  'Betaling gjennomført!':'Payment complete!',
+  'Billetten er lagt til i din profil':'Ticket added to your profile',
+  'Skann QR-koden i heisen eller i resepsjonen':'Scan the QR code at the lift or at reception',
+  'Kjøp ny billett':'Buy new ticket',
+  'Eksempel-prototype · priser er kun illustrasjon':'Example prototype · prices are illustrative only',
+  // Personkategorier
+  'Knøtt':'Toddler', 'Barn':'Child', 'Voksen':'Adult', 'Senior':'Senior', 'Ungdom':'Youth',
+  '0–6 år':'age 0–6', '7–15 år':'age 7–15', '16–66 år':'age 16–66', '67+':'67+',
+  // Billettgrupper
+  'Gjestepass':'Guest pass', 'Flerdagers kort':'Multi-day pass', 'Enkelttur':'Single run',
+  'Andre aktiviteter':'Other activities', 'Halvdagskort':'Half-day pass', 'Langrenn':'Cross-country',
+  'Kombinasjonskort':'Combination pass', 'Inngang':'Entry', 'Klippekort':'Punch card', 'Kjelke':'Sledding',
+  // Anleggsbeskrivelser
+  'Alpint, kjelke og heiser':'Alpine, sledding and lifts', 'Alpint og heiser':'Alpine and lifts',
+  'Alpint, heiser og Formula G':'Alpine, lifts and Formula G',
+  'Alpint – dag, halvdag og helg':'Alpine – day, half-day and weekend',
+  'Alpint, barnebakke og aking':'Alpine, children’s slope and sledding',
+  'Kjelkebakke for liten og stor':'Sledding hill for young and old',
+  'Innendørs alpint og langrenn':'Indoor alpine and cross-country',
+  'Innendørs klatring – 4 sentre':'Indoor climbing – 4 centres',
+  // Billettnavn
+  'Gjestepass 1 dag':'Guest pass 1 day', 'Gjestepass 2 dager':'Guest pass 2 days',
+  'Gjestepass 3 dager':'Guest pass 3 days', 'Gjestepass 4 dager':'Guest pass 4 days',
+  'Gjestepass 5 dager':'Guest pass 5 days', 'Gjestepass 6 dager':'Guest pass 6 days',
+  'Gjestepass 7 dager':'Guest pass 7 days', 'Gjestepass 1 uke':'Guest pass 1 week',
+  'Kjelke liten (under 160 cm)':'Sledding small (under 160 cm)',
+  'Kjelke stor (over 160 cm)':'Sledding large (over 160 cm)',
+  'Formiddag':'Morning', 'Ettermiddag':'Afternoon', 'Helgekort 2 dager':'Weekend pass 2 days',
+  'Gjestepass Barnebakken':'Guest pass children’s slope', 'Aking':'Sledding',
+  'Gjestepass Ukedag':'Guest pass weekday', 'Gjestepass Helg':'Guest pass weekend',
+  'Langrenn 3 timer':'Cross-country 3 hours', 'Langrenn 1 dag':'Cross-country 1 day',
+  'Langrenn & Alpin Ukedag':'Cross-country & Alpine weekday', 'Langrenn & Alpin Helg':'Cross-country & Alpine weekend',
+  'Inngang med utstyr':'Entry with equipment', 'Familiebillett':'Family ticket',
+  'Klippekort 10 klipp':'Punch card 10 clips', 'Klippekort Vinterkort':'Punch card winter pass',
+};
+function tr(s){ return LANG === 'en' ? (DICT[s] !== undefined ? DICT[s] : s) : s; }
+function trTicket(name){
+  if (LANG !== 'en') return name;
+  if (DICT[name] !== undefined) return DICT[name];
+  return name.replace('Gjestepass', tr('Gjestepass')).replace(/(\d+)\s*dager/, '$1 ' + tr('dager'));
+}
+
+// Statisk tekst oversettes ved å fange originalene én gang
+let staticNodes = [], staticPh = [];
+function captureStatic(){
+  const root = document.querySelector('.phone');
+  const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n;
+  while (n = walk.nextNode()) { if (n.nodeValue && n.nodeValue.trim()) staticNodes.push({ n, o: n.nodeValue }); }
+  root.querySelectorAll('[placeholder]').forEach(el => staticPh.push({ el, o: el.getAttribute('placeholder') }));
+}
+function applyStatic(){
+  const en = LANG === 'en';
+  staticNodes.forEach(({ n, o }) => {
+    if (!en) { n.nodeValue = o; return; }
+    const key = o.trim();
+    const lead = o.slice(0, o.length - o.trimStart().length);
+    const trail = o.slice(o.trimEnd().length);
+    let val = DICT[key];
+    if (val === undefined) val = DICT[key.replace(/\s+/g, ' ')];
+    n.nodeValue = lead + (val !== undefined ? val : key) + trail;
+  });
+  staticPh.forEach(({ el, o }) => el.setAttribute('placeholder', en ? (DICT[o.trim()] !== undefined ? DICT[o.trim()] : o) : o));
+}
+const notEmpty = id => document.getElementById(id).innerHTML.trim() !== '';
+const visible = id => !document.getElementById(id).classList.contains('hidden');
+function setLang(to){
+  if (to === LANG) return;
+  LANG = to;
+  document.querySelectorAll('.lang-opt').forEach(b => b.classList.toggle('on', b.dataset.lang === to));
+  applyStatic();
+  // Re-render alt dynamisk innhold på nytt språk
+  renderVenues();
+  updateCouponBtn();
+  updateTicketBtns();
+  updateAccessUI();
+  selectMemType(MEM.type);
+  renderPersons();
+  if (state.venue) {
+    if (state.venue.locations && !state.location) renderLocations();
+    else if (notEmpty('ticketList')) renderTickets();
+  }
+  if (visible('step3')) setProg(3, isHut() ? 4 : 3, 'Antall');
+  if (notEmpty('qtyList')) renderQty();
+  if (notEmpty('summaryBox')) renderSummary();
+  if (visible('step5') && state.ticket) setReceipt();
+  if (notEmpty('couponList')) renderCoupons();
+  if (notEmpty('ticketCards')) renderMyTickets();
+  if (notEmpty('memSummaryBox')) renderMemSummaryBox();
+  if (notEmpty('accessBody')) renderAccess();
+  if (notEmpty('dueList')) renderDueList();
+  if (notEmpty('cardList')) renderCardList();
+}
+
 // Ikoner i Skimore-stil: ski for alpinanleggene, klatring for HUT
 const ICONS = {
   ski: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1172,9 +1415,14 @@ const VENUES = [
     ['Gjestepass 2 dager', SKIMORE_PRISER.dag2, 'Flerdagers kort'], ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'], ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
     ['Enkelttur', SKIMORE_PRISER.enkelt, 'Enkelttur'] ]},
   { id:'uvdal', name:'Uvdal', icon:'ski', desc:'Alpint og heiser', tickets:[
-    ['Gjestepass 1 dag', 449, 'Gjestepass'],
-    ['Gjestepass 2 dager', 799, 'Flerdagers kort'], ['Gjestepass 3 dager', 1099, 'Flerdagers kort'], ['Gjestepass 1 uke', 1799, 'Flerdagers kort'],
-    ['Enkelttur', 79, 'Enkelttur'] ]},
+    ['Gjestepass 1 dag', [212, 425, 530, 425], 'Gjestepass'],
+    ['Gjestepass 2 dager', [372, 725, 930, 725], 'Flerdagers kort'],
+    ['Gjestepass 3 dager', [532, 1025, 1330, 1025], 'Flerdagers kort'],
+    ['Gjestepass 4 dager', [692, 1325, 1730, 1325], 'Flerdagers kort'],
+    ['Gjestepass 5 dager', [852, 1625, 2130, 1625], 'Flerdagers kort'],
+    ['Gjestepass 6 dager', [1012, 1925, 2530, 1925], 'Flerdagers kort'],
+    ['Gjestepass 7 dager', [1172, 2225, 2930, 2225], 'Flerdagers kort'],
+    ['Enkelttur', 100, 'Enkelttur'] ]},
   { id:'ingierkollen', name:'Skimore Ingierkollen', icon:'ski', desc:'Alpint, barnebakke og aking', tickets:[
     ['Gjestepass 1 dag', 399, 'Gjestepass'], ['Gjestepass Barnebakken', 199, 'Gjestepass'],
     ['Enkelttur', 79, 'Enkelttur'],
@@ -1191,7 +1439,7 @@ const VENUES = [
     ['Gjestepass 1 dag', 529, 'Gjestepass'],
     ['Gjestepass 2 dager', 949, 'Flerdagers kort'], ['Gjestepass 3 dager', 1279, 'Flerdagers kort'], ['Gjestepass 1 uke', 2099, 'Flerdagers kort'],
     ['Enkelttur', 95, 'Enkelttur'] ]},
-  { id:'kjelke', name:'Kjelke', icon:'ake', desc:'Kjelkebakke for liten og stor', tickets:[
+  { id:'kjelke', name:'Kjelke Korketrekkeren', icon:'ake', desc:'Kjelkebakke for liten og stor', tickets:[
     ['Kjelke liten (under 160 cm)', 115, 'Kjelke'],
     ['Kjelke stor (over 160 cm)', 150, 'Kjelke'] ]},
   { id:'sno', name:'SNØ', icon:'ski', desc:'Innendørs alpint og langrenn', tickets:[
@@ -1219,7 +1467,7 @@ const isHut = () => !!(state.venue && state.venue.locations);
 const totSteps = () => isHut() ? 5 : 4;
 
 function setProg(div, n, label) {
-  document.getElementById('lbl'+div).textContent = `Steg ${n} av ${totSteps()} – ${label}`;
+  document.getElementById('lbl'+div).textContent = `${tr('Steg')} ${n} ${tr('av')} ${totSteps()} – ${tr(label)}`;
   document.getElementById('bar'+div).innerHTML =
     Array.from({length: totSteps()}, (_,i) => `<div class="${i < n ? 'done' : ''}"></div>`).join('');
 }
@@ -1234,11 +1482,14 @@ function go(step) {
   for (let i = 1; i <= 5; i++) document.getElementById('step'+i).classList.toggle('hidden', i !== step);
   if (step === 4) renderSummary();
   if (step === 5) {
-    const tot = total();
-    document.getElementById('receiptText').textContent =
-      `${state.ticket} · ${displayName()} · ${nok(tot)}`;
+    setReceipt();
     recordPurchase(); // billettene legges i «Mine billetter»
   }
+}
+
+function setReceipt() {
+  document.getElementById('receiptText').textContent =
+    `${trTicket(state.ticket)} · ${displayName()} · ${nok(total())}`;
 }
 
 function monogram(name) {
@@ -1248,9 +1499,9 @@ function monogram(name) {
 
 function renderVenues() {
   document.getElementById('venueList').innerHTML = VENUES.map((v,i) => `
-    <button class="card compact ${i < 2 ? 'mid' : ''}" onclick="pickVenue('${v.id}')">
+    <button class="card compact" onclick="pickVenue('${v.id}')">
       <span class="icon">${ICONS[v.icon]}</span>
-      <span class="txt"><span class="title">${v.name}</span><br><span class="desc">${v.desc}</span></span>
+      <span class="txt"><span class="title">${v.name}</span><br><span class="desc">${tr(v.desc)}</span></span>
     </button>`).join('');
 }
 
@@ -1269,7 +1520,7 @@ function pickVenue(id) {
 function renderLocations() {
   setProg(2, 2, 'Velg anlegg');
   document.getElementById('ticketList').innerHTML =
-    `<h2>Velg anlegg</h2>` +
+    `<h2>${tr('Velg anlegg')}</h2>` +
     state.venue.locations.map(loc => `
     <button class="card mid" onclick="pickLocation('${loc}')">
       <span class="icon">${ICONS[state.venue.icon]}</span>
@@ -1290,7 +1541,7 @@ function ticketCard([t, p], idx) {
   return `
     <button class="card" onclick="pickTicket(${idx})">
       <span class="icon">${ICONS[state.venue.icon]}</span>
-      <span class="txt"><span class="title">${t}</span><br><span class="desc">Fra ${nok(fra)}</span></span>
+      <span class="txt"><span class="title">${trTicket(t)}</span><br><span class="desc">${tr('Fra')} ${nok(fra)}</span></span>
       <span class="price">${nok(voksen)}</span>
     </button>`;
 }
@@ -1307,15 +1558,15 @@ function renderTickets() {
       if (g === 'Flerdagers kort') {
         const fra = priceForDays(2);
         const voksen = Array.isArray(fra) ? fra[2] : fra;
-        return `<h2>${g}</h2>
+        return `<h2>${tr(g)}</h2>
           <button class="card" onclick="openCalendar()">
             <span class="icon">📅</span>
-            <span class="txt"><span class="title">Velg dager i kalenderen</span><br>
-            <span class="desc">2–7 dager · fra ${nok(voksen)} (voksen, 2 dager)</span></span>
+            <span class="txt"><span class="title">${tr('Velg dager i kalenderen')}</span><br>
+            <span class="desc">${tr('2–7 dager · fra')} ${nok(voksen)} ${tr('(voksen, 2 dager)')}</span></span>
             <span class="price">›</span>
           </button>`;
       }
-      return `<h2>${g}</h2>` + es.map(([t, i]) => ticketCard(t, i)).join('');
+      return `<h2>${tr(g)}</h2>` + es.map(([t, i]) => ticketCard(t, i)).join('');
     }).join('');
 }
 
@@ -1397,7 +1648,7 @@ function calPick(t) {
     const days = (t - calStart) / DAY_MS + 1;
     if (days > 7) {
       calEnd = calStart + 6 * DAY_MS;
-      document.getElementById('calWarn').textContent = 'Maks 7 dager – perioden er kortet ned';
+      document.getElementById('calWarn').textContent = tr('Maks 7 dager – perioden er kortet ned');
     } else calEnd = t;
   }
   renderCalendar();
@@ -1409,10 +1660,10 @@ function updateCalInfo() {
   if (calStart && calEnd) {
     const n = (calEnd - calStart) / DAY_MS + 1;
     const p = priceForDays(n);
-    info.textContent = `${n} dager (${ddmm(calStart)}–${ddmm(calEnd)}) · fra ${nok(Array.isArray(p) ? Math.min(...p) : p)}`;
+    info.textContent = `${n} ${tr('dager')} (${ddmm(calStart)}–${ddmm(calEnd)}) · ${tr('fra')} ${nok(Array.isArray(p) ? Math.min(...p) : p)}`;
     btn.disabled = n < 2;
   } else {
-    info.textContent = calStart ? `Start ${ddmm(calStart)} – velg siste dag` : 'Trykk på første og siste dag';
+    info.textContent = calStart ? `${tr('Start')} ${ddmm(calStart)} – ${tr('velg siste dag')}` : tr('Trykk på første og siste dag');
     btn.disabled = true;
   }
 }
@@ -1422,7 +1673,7 @@ function calConfirm() {
   state.ticket = `Gjestepass ${n} dager (${ddmm(calStart)}–${ddmm(calEnd)})`;
   state.price = priceForDays(n);
   state.qty = emptyQty();
-  document.getElementById('ticketName').textContent = state.ticket;
+  document.getElementById('ticketName').textContent = trTicket(state.ticket);
   closeCalendar();
   setProg(3, isHut() ? 4 : 3, 'Antall');
   renderQty();
@@ -1433,7 +1684,7 @@ function pickTicket(idx) {
   const [t, p] = state.venue.tickets[idx];
   state.ticket = t; state.price = p;
   state.qty = emptyQty();
-  document.getElementById('ticketName').textContent = t;
+  document.getElementById('ticketName').textContent = trTicket(t);
   setProg(3, isHut() ? 4 : 3, 'Antall');
   renderQty();
   go(3);
@@ -1443,8 +1694,8 @@ function renderQty() {
   document.getElementById('qtyList').innerHTML = PERSONS.map((per, i) => `
     <div class="qty-row">
       <div class="info">
-        <div class="t">${per.label}</div>
-        <div class="p">${per.sub} · ${nok(priceFor(i))}</div>
+        <div class="t">${tr(per.label)}</div>
+        <div class="p">${tr(per.sub)} · ${nok(priceFor(i))}</div>
       </div>
       <div class="stepper">
         <button onclick="chg('${per.id}',-1)">−</button>
@@ -1467,15 +1718,15 @@ function total() {
 function renderSummary() {
   setProg(4, totSteps(), 'Oppsummering');
   const rows = PERSONS.map((p, i) => state.qty[p.id] > 0
-    ? `<div class="row"><span>${state.qty[p.id]} × ${p.label}</span><span>${nok(state.qty[p.id] * priceFor(i))}</span></div>`
+    ? `<div class="row"><span>${state.qty[p.id]} × ${tr(p.label)}</span><span>${nok(state.qty[p.id] * priceFor(i))}</span></div>`
     : '').join('');
   document.getElementById('summaryBox').innerHTML = `
-    <div class="row"><span>Anlegg</span><span>${displayName()}</span></div>
-    <div class="row"><span>Billett</span><span>${state.ticket}</span></div>
-    <div class="row"><span>Gyldighet</span><span>1 valgfri dag i sesongen</span></div>
+    <div class="row"><span>${tr('Anlegg')}</span><span>${displayName()}</span></div>
+    <div class="row"><span>${tr('Billett')}</span><span>${trTicket(state.ticket)}</span></div>
+    <div class="row"><span>${tr('Gyldighet')}</span><span>${tr('1 valgfri dag i sesongen')}</span></div>
     ${rows}
-    <div class="row total"><span>Totalt</span><span>${nok(total())}</span></div>`;
-  document.getElementById('payBtn').textContent = `Betal ${nok(total())}`;
+    <div class="row total"><span>${tr('Totalt')}</span><span>${nok(total())}</span></div>`;
+  document.getElementById('payBtn').textContent = `${tr('Betal')} ${nok(total())}`;
 }
 
 function selectPay(p) {
@@ -1510,13 +1761,13 @@ function renderCoupons() {
           <div class="coupon ${c.redeemed ? 'used' : ''}">
             <div class="c-img">${c.icon}</div>
             <div class="c-body">
-              <div class="c-title">${c.title} ${c.redeemed ? '<span class="used-badge">Innløst ✓</span>' : ''}</div>
-              <div class="c-desc">${c.desc}</div>
-              <div class="c-valid">${c.valid}</div>
+              <div class="c-title">${tr(c.title)} ${c.redeemed ? '<span class="used-badge">' + tr('Innløst ✓') + '</span>' : ''}</div>
+              <div class="c-desc">${tr(c.desc)}</div>
+              <div class="c-valid">${tr(c.valid)}</div>
               ${c.redeemed ? '' : `
               <div class="c-actions">
-                <button class="redeem" onclick="askRedeem(${i})">Løs inn</button>
-                <a class="pill" href="https://www.skimore.no" target="_blank" rel="noopener">Les mer</a>
+                <button class="redeem" onclick="askRedeem(${i})">${tr('Løs inn')}</button>
+                <a class="pill" href="https://www.skimore.no" target="_blank" rel="noopener">${tr('Les mer')}</a>
               </div>`}
             </div>
           </div>
@@ -1528,8 +1779,13 @@ function renderCoupons() {
       <div class="dots">${COUPONS.map((_, i) => `<span class="dot ${i === couponIdx ? 'on' : ''}" onclick="couponIdx=${i};renderCoupons()"></span>`).join('')}</div>
       <button class="arrow" onclick="moveCoupon(1)">›</button>
     </div>
-    <div class="car-count">Kupong ${couponIdx + 1} av ${COUPONS.length} · sveip eller trykk pilene</div>`;
-  document.getElementById('couponCount').textContent = COUPONS.filter(c => !c.redeemed).length;
+    <div class="car-count">${tr('Kupong')} ${couponIdx + 1} ${tr('av')} ${COUPONS.length} · ${tr('sveip eller trykk pilene')}</div>`;
+  updateCouponBtn();
+}
+
+function updateCouponBtn() {
+  const n = COUPONS.filter(c => !c.redeemed).length;
+  document.getElementById('couponLbl').innerHTML = '🎁&nbsp; ' + n + ' ' + tr('kuponger');
 }
 
 function moveCoupon(d) {
@@ -1559,7 +1815,7 @@ function hideCoupons() {
 function askRedeem(i) {
   redeemIdx = i;
   document.getElementById('redeemText').textContent =
-    `Er du sikker på at du vil løse inn «${COUPONS[i].title}»? Innløsningen kan ikke angres.`;
+    `${tr('Er du sikker på at du vil løse inn')} «${tr(COUPONS[i].title)}»? ${tr('Innløsningen kan ikke angres.')}`;
   document.getElementById('redeemDialog').classList.remove('hidden');
 }
 
@@ -1598,25 +1854,25 @@ function renderAccess() {
       <span>▯</span><span>Keycard</span>
       <span class="acc-right">
         ${mobilAktiv
-          ? '<span class="acc-badge red">🚫 Blokkert</span><button class="pill" onclick="reaktiverKeycard()">Reaktiver</button>'
-          : '<span class="acc-badge green">Aktivt</span>'}
+          ? '<span class="acc-badge red">🚫 ' + tr('Blokkert') + '</span><button class="pill" onclick="reaktiverKeycard()">' + tr('Reaktiver') + '</button>'
+          : '<span class="acc-badge green">' + tr('Aktivt') + '</span>'}
       </span>
     </div>
     <div class="acc-row">
-      <span>📱</span><span>Mobilbillett</span>
+      <span>📱</span><span>${tr('Mobilbillett')}</span>
       <span class="acc-right">
         ${mobilAktiv
-          ? '<span class="acc-badge green">Aktiv</span>'
-          : (velgerMobil ? '' : '<button class="pill" onclick="velgerMobil=true;renderAccess()">Velg</button>')}
+          ? '<span class="acc-badge green">' + tr('Aktiv') + '</span>'
+          : (velgerMobil ? '' : '<button class="pill" onclick="velgerMobil=true;renderAccess()">' + tr('Velg') + '</button>')}
       </span>
     </div>
     ${(!mobilAktiv && velgerMobil) ? `
     <div class="slide-track" id="slideTrack">
-      <span class="slide-label">Sveip for å aktivere mobilbillett&nbsp;→</span>
+      <span class="slide-label">${tr('Sveip for å aktivere mobilbillett')}&nbsp;→</span>
       <div class="slide-handle" id="slideHandle">›</div>
     </div>
-    <div style="font-size:11.5px; opacity:.7;">Når mobilbilletten aktiveres blir Keycardet ditt blokkert.</div>` : ''}
-    ${mobilAktiv ? '<div style="font-size:11.5px; opacity:.7;">Mobilbilletten er aktiv – Keycardet er blokkert og kan ikke lenger brukes.</div>' : ''}`;
+    <div style="font-size:11.5px; opacity:.7;">${tr('Når mobilbilletten aktiveres blir Keycardet ditt blokkert.')}</div>` : ''}
+    ${mobilAktiv ? '<div style="font-size:11.5px; opacity:.7;">' + tr('Mobilbilletten er aktiv – Keycardet er blokkert og kan ikke lenger brukes.') + '</div>' : ''}`;
   if (!mobilAktiv && velgerMobil) bindSlider();
 }
 
@@ -1659,14 +1915,14 @@ function updateAccessUI() {
   const pill = document.getElementById('keycardPill');
   const status = document.getElementById('accessStatus');
   if (mobilAktiv) {
-    pill.textContent = '📱 Mobilbillett aktiv';
+    pill.textContent = '📱 ' + tr('Mobilbillett aktiv');
     pill.classList.add('activegreen');
     pill.classList.remove('blocked');
-    status.innerHTML = '<span style="color:#FF7777;">🚫 Keycard blokkert</span>';
+    status.innerHTML = '<span style="color:#FF7777;">🚫 ' + tr('Keycard blokkert') + '</span>';
   } else {
-    pill.textContent = '▯ Keycard aktivt';
+    pill.textContent = '▯ ' + tr('Keycard aktivt');
     pill.classList.remove('activegreen', 'blocked');
-    status.textContent = '▯ Adgang: Keycard';
+    status.textContent = '▯ ' + tr('Adgang: Keycard');
   }
 }
 
@@ -1690,7 +1946,8 @@ function recordPurchase() {
       MY_TICKETS.push({
         name: state.ticket,
         venue: displayName(),
-        cat: `${per.label} (${per.sub})`,
+        catLabel: per.label,
+        catSub: per.sub,
         price: priceFor(i)
       });
     }
@@ -1701,17 +1958,19 @@ function recordPurchase() {
 function updateTicketBtns() {
   const n = MY_TICKETS.length;
   ['G','M'].forEach(s => {
-    document.getElementById('tCount'+s).textContent = n;
+    document.getElementById('ticketsLbl'+s).innerHTML = '🎟️&nbsp; ' + tr('Vis mine billetter') + ' (' + n + ')';
     document.getElementById('myTicketsBtn'+s).classList.toggle('hidden', n === 0);
   });
 }
 
-function showTickets() {
+function showTickets() { renderMyTickets(); memGo('tickets'); }
+
+function renderMyTickets() {
   document.getElementById('ticketCards').innerHTML = MY_TICKETS.map((t, i) => `
     <div class="ticket-card">
-      <div class="t-name">${t.name}</div>
-      <div class="t-info">${t.venue} · ${t.cat} · ${nok(t.price)}</div>
-      <div class="t-valid">Gyldig 1 valgfri dag gjennom sesongen</div>
+      <div class="t-name">${trTicket(t.name)}</div>
+      <div class="t-info">${t.venue} · ${tr(t.catLabel)} (${tr(t.catSub)}) · ${nok(t.price)}</div>
+      <div class="t-valid">${tr('Gyldig 1 valgfri dag gjennom sesongen')}</div>
       <div class="qrbox" id="qr${i}"></div>
     </div>`).join('');
   MY_TICKETS.forEach((_, i) => {
@@ -1723,7 +1982,6 @@ function showTickets() {
       el.innerHTML = '<div class="qr" style="margin:0;"></div>'; // fallback uten nett
     }
   });
-  memGo('tickets');
 }
 let hasMembership = false;
 
@@ -1742,7 +2000,7 @@ function selectMemType(t) {
   document.getElementById('rtEnkelt').classList.toggle('sel', t === 'enkelt');
   document.getElementById('rtFamilie').classList.toggle('sel', t === 'familie');
   document.getElementById('memTypeBtn').textContent =
-    t === 'familie' ? 'Kjøp familiemedlemskap' : 'Kjøp enkeltmedlemskap';
+    t === 'familie' ? tr('Kjøp familiemedlemskap') : tr('Kjøp enkeltmedlemskap');
 }
 
 const ageOf = d => { // DD.MM.ÅÅÅÅ
@@ -1764,7 +2022,7 @@ function openPersonDialog() {
     el.value = ''; el.classList.remove('err');
   });
   tmpKeycard = 'ny'; tmpCard = null;
-  document.getElementById('keycardLabel').textContent = 'Nytt Keycard (+ 75 kr)';
+  document.getElementById('keycardLabel').textContent = tr('Nytt Keycard (+ 75 kr)');
   document.getElementById('personDialog').classList.remove('hidden');
 }
 function closePersonDialog() { document.getElementById('personDialog').classList.add('hidden'); }
@@ -1786,7 +2044,7 @@ function confirmKeycard() {
     document.getElementById('cardListDialog').classList.remove('hidden');
   } else {
     tmpCard = null;
-    document.getElementById('keycardLabel').textContent = 'Nytt Keycard (+ 75 kr)';
+    document.getElementById('keycardLabel').textContent = tr('Nytt Keycard (+ 75 kr)');
   }
 }
 function renderCardList() {
@@ -1799,7 +2057,7 @@ function renderCardList() {
 function confirmCard() {
   tmpCard = EXISTING_CARDS[pickedCard];
   document.getElementById('cardListDialog').classList.add('hidden');
-  document.getElementById('keycardLabel').textContent = 'Keycard …' + tmpCard.slice(-7);
+  document.getElementById('keycardLabel').textContent = 'Keycard … ' + tmpCard.slice(-7);
 }
 
 function confirmPerson() {
@@ -1825,13 +2083,13 @@ function removePerson(i) { MEM.persons.splice(i, 1); renderPersons(); }
 function renderPersons() {
   document.getElementById('personList').innerHTML = MEM.persons.map((p, i) => `
     <div class="person-row">
-      <span>${p.navn} (${p.age} år, ${ageLabel(p.age)})<br>
-        <span style="font-size:11.5px; opacity:.7;">${p.keycard === 'ny' ? 'Nytt Keycard (+ 75 kr)' : 'Har Keycard'}</span></span>
+      <span>${p.navn} (${p.age} ${tr('år')}, ${tr(ageLabel(p.age))})<br>
+        <span style="font-size:11.5px; opacity:.7;">${p.keycard === 'ny' ? tr('Nytt Keycard (+ 75 kr)') : tr('Har Keycard')}</span></span>
       <button class="remove" onclick="removePerson(${i})">✕</button>
     </div>`).join('');
   const btn = document.getElementById('memNextBtn');
   btn.disabled = MEM.persons.length === 0;
-  btn.textContent = MEM.persons.length === 0 ? 'Fyll ut alle påkrevde felter' : 'Til oppsummering';
+  btn.textContent = MEM.persons.length === 0 ? tr('Fyll ut alle påkrevde felter') : tr('Til oppsummering');
 }
 
 const memMonthly = () => MEM.type === 'familie' ? 799 : MEM.persons.reduce((s, p) => s + monthlyFor(p.age), 0);
@@ -1841,19 +2099,19 @@ const memTotalNow = () => (MEM.payMode === 'år' ? memYearly() : memMonthly()) +
 
 function renderMemSummaryBox() {
   const f = MEM.payMode === 'år' ? 12 : 1;
-  const suffix = MEM.payMode === 'år' ? 'kr/år' : 'kr/mnd';
+  const suffix = MEM.payMode === 'år' ? tr('kr/år') : tr('kr/mnd');
   const rows = MEM.type === 'familie'
-    ? `<div class="row"><span>Familiemedlemskap</span><span>${799 * f} ${suffix}</span></div>` +
-      MEM.persons.map(p => `<div class="row"><span>${p.navn} (${p.age} år, ${ageLabel(p.age)})</span><span></span></div>`).join('')
+    ? `<div class="row"><span>${tr('Familiemedlemskap')}</span><span>${799 * f} ${suffix}</span></div>` +
+      MEM.persons.map(p => `<div class="row"><span>${p.navn} (${p.age} ${tr('år')}, ${tr(ageLabel(p.age))})</span><span></span></div>`).join('')
     : MEM.persons.map(p =>
-      `<div class="row"><span>Enkeltmedlem – ${p.navn} (${p.age} år, ${ageLabel(p.age)})</span><span>${monthlyFor(p.age) * f} ${suffix}</span></div>`).join('');
+      `<div class="row"><span>${tr('Enkeltmedlem')} – ${p.navn} (${p.age} ${tr('år')}, ${tr(ageLabel(p.age))})</span><span>${monthlyFor(p.age) * f} ${suffix}</span></div>`).join('');
   document.getElementById('memSummaryBox').innerHTML = rows +
     (memKeycards() ? `<div class="row"><span>Keycard × ${memKeycards()}</span><span>${nok(memKeycards() * 75)}</span></div>` : '') +
-    `<div class="row"><span>Totalpris</span><span>${nok(memYearly())} /år</span></div>` +
-    `<div class="row total"><span>Totalt å betale nå</span><span>${nok(memTotalNow())}</span></div>`;
-  document.getElementById('memPayModeTxt').textContent = MEM.payMode === 'år' ? 'Årlig' : 'Månedlig';
+    `<div class="row"><span>${tr('Totalpris')}</span><span>${nok(memYearly())} ${tr('/år')}</span></div>` +
+    `<div class="row total"><span>${tr('Totalt å betale nå')}</span><span>${nok(memTotalNow())}</span></div>`;
+  document.getElementById('memPayModeTxt').textContent = MEM.payMode === 'år' ? tr('Årlig') : tr('Månedlig');
   document.getElementById('memDueTxt').textContent =
-    MEM.payMode === 'år' ? `${MEM.due} (én gang i året)` : `${MEM.due} hver måned`;
+    MEM.payMode === 'år' ? `${MEM.due} ${tr('(én gang i året)')}` : `${MEM.due} ${tr('hver måned')}`;
   updatePayBtn();
 }
 
@@ -1886,7 +2144,7 @@ function openDueDialog() {
 function renderDueList() {
   document.getElementById('dueList').innerHTML = DUE_DATES.map(d => `
     <button class="radio-row ${d === tmpDue ? 'sel' : ''}" onclick="tmpDue='${d}';renderDueList()">
-      <span class="radio-dot"></span> ${d} ${MEM.payMode === 'år' ? '(årlig)' : 'hver måned'}
+      <span class="radio-dot"></span> ${d} ${MEM.payMode === 'år' ? tr('(årlig)') : tr('hver måned')}
     </button>`).join('');
 }
 function confirmDue() {
@@ -1903,13 +2161,13 @@ function toggleVilkar() {
 function updatePayBtn() {
   const btn = document.getElementById('memPayBtn');
   btn.disabled = !MEM.vilkar;
-  btn.textContent = `Bekreft og betal ${nok(memTotalNow())}`;
+  btn.textContent = `${tr('Bekreft og betal')} ${nok(memTotalNow())}`;
 }
 
 function memPay() {
   hasMembership = true; // forsiden viser nå aktivt medlemskap
   document.getElementById('memDoneText').textContent =
-    `${MEM.type === 'familie' ? 'Familiemedlemskap' : 'Enkeltmedlemskap'} · ${MEM.persons.length} person${MEM.persons.length > 1 ? 'er' : ''} · ${nok(memMonthly())}/mnd`;
+    `${MEM.type === 'familie' ? tr('Familiemedlemskap') : tr('Enkeltmedlemskap')} · ${MEM.persons.length} ${tr(MEM.persons.length > 1 ? 'personer' : 'person')} · ${nok(memMonthly())}${tr('/mnd')}`;
   memGo('memDone');
 }
 
@@ -1928,7 +2186,10 @@ function showBooking() {
 function showHome() { memGo(hasMembership ? 'home' : 'homeGuest'); }
 
 // init
+captureStatic();   // fang original norsk tekst før dynamiske skjermer fylles
 renderVenues();
+updateCouponBtn();
+updateTicketBtns();
 </script>
 </body>
 </html>
