@@ -119,6 +119,25 @@
     font-size: 12px; font-weight: 500; white-space: nowrap;
   }
 
+  /* Kalender for flerdagers kort */
+  .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: 500; }
+  .cal-head button {
+    background: var(--grey-1); border: none; border-radius: 999px;
+    width: 32px; height: 32px; cursor: pointer; font-family: inherit; color: var(--navy);
+  }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+  .cal-grid .dow { font-size: 11px; opacity: .6; padding: 4px 0; font-weight: 500; }
+  .cal-day {
+    padding: 9px 0; border-radius: 10px; font-size: 13px;
+    cursor: pointer; border: none; background: none;
+    font-family: inherit; color: var(--navy);
+  }
+  .cal-day:disabled { opacity: .25; cursor: default; }
+  .cal-day.range { background: var(--teal-light); }
+  .cal-day.endp { background: var(--navy); color: var(--white); }
+  .cal-info { font-size: 13px; margin: 12px 0 2px; text-align: center; min-height: 18px; }
+  .cal-warn { color: #A23E40; font-size: 12px; text-align: center; min-height: 16px; }
+
   /* Adgang: Keycard / mobilbillett */
   .acc-badge { border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
   .acc-badge.green { background: var(--green-light); color: var(--green-dark); }
@@ -686,7 +705,7 @@
       <div class="line">＋ Og mye mer</div>
       <div class="mem-cta-row">
         <span style="font-weight:500; font-size:15px;">289 kr/mnd<br><span style="font-size:12px; font-weight:400; opacity:.85;">(3 468 kr/år)</span></span>
-        <button class="pill teal" onclick="startMembership()">Kjøp</button>
+        <button class="pill teal" onclick="startMembership()">Kjøp medlemskap</button>
       </div>
     </div>
   </div>
@@ -888,6 +907,22 @@
       <p class="muted">Keycard hentes i resepsjonen ved første besøk</p>
       <br>
       <button class="pill" onclick="memReset(); showHome()">Til hovedmeny</button>
+    </div>
+  </div>
+
+  <!-- DIALOG: kalender for flerdagers kort -->
+  <div id="calDialog" class="overlay hidden">
+    <div class="dialog left">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="margin:0;">Velg dager (2–7)</h3>
+        <button class="close" onclick="closeCalendar()">✕</button>
+      </div>
+      <div id="calBody"></div>
+      <div class="cal-info" id="calInfo">Trykk på første og siste dag</div>
+      <div class="cal-warn" id="calWarn"></div>
+      <div class="d-actions" style="margin-top:10px;">
+        <button class="confirm-btn" style="width:100%;" id="calBtn" disabled onclick="calConfirm()">Velg antall billetter</button>
+      </div>
     </div>
   </div>
 
@@ -1114,7 +1149,9 @@ const SKIMORE_PRISER = {
 const VENUES = [
   { id:'oslo', name:'Skimore Oslo', icon:'ski', desc:'Alpint, kjelke og heiser', tickets:[
     ['Gjestepass 1 dag', SKIMORE_PRISER.dag1, 'Gjestepass'],
-    ['Gjestepass 2 dager', SKIMORE_PRISER.dag2, 'Flerdagers kort'], ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'], ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
+    ['Gjestepass 2 dager', SKIMORE_PRISER.dag2, 'Flerdagers kort'],
+    ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'],
+    ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
     ['Enkelttur', SKIMORE_PRISER.enkelt, 'Enkelttur'],
     ['Kjelke', 149, 'Andre aktiviteter'] ]},
   { id:'drammen', name:'Skimore Drammen', icon:'ski', desc:'Alpint og heiser', tickets:[
@@ -1254,8 +1291,130 @@ function renderTickets() {
   entries.filter(([t]) => t[2]).forEach(e => (groups[e[0][2]] = groups[e[0][2]] || []).push(e));
   document.getElementById('ticketList').innerHTML =
     main.map(([t, i]) => ticketCard(t, i)).join('') +
-    Object.entries(groups).map(([g, es]) =>
-      `<h2>${g}</h2>` + es.map(([t, i]) => ticketCard(t, i)).join('')).join('');
+    Object.entries(groups).map(([g, es]) => {
+      if (g === 'Flerdagers kort') {
+        const fra = priceForDays(2);
+        const voksen = Array.isArray(fra) ? fra[2] : fra;
+        return `<h2>${g}</h2>
+          <button class="card" onclick="openCalendar()">
+            <span class="icon">📅</span>
+            <span class="txt"><span class="title">Velg dager i kalenderen</span><br>
+            <span class="desc">2–7 dager · fra ${nok(voksen)} (voksen, 2 dager)</span></span>
+            <span class="price">›</span>
+          </button>`;
+      }
+      return `<h2>${g}</h2>` + es.map(([t, i]) => ticketCard(t, i)).join('');
+    }).join('');
+}
+
+// ---- Kalender for flerdagers kort ----
+// Kjente dagspriser hentes fra billettlisten, mellomliggende interpoleres
+function knownDayPrices() {
+  const map = {};
+  state.venue.tickets.forEach(([name, price, group]) => {
+    if (name.includes('1 uke')) { map[7] = price; return; }
+    const m = name.match(/(\d+)\s*dag/i);
+    if (m && (group === 'Flerdagers kort' || name.startsWith('Gjestepass 1 dag'))) map[+m[1]] = price;
+  });
+  return map;
+}
+const toArr = p => Array.isArray(p) ? p : [Math.round(p*0.4), Math.round(p*0.8), p, Math.round(p*0.8)];
+const r5 = n => Math.round(n / 5) * 5;
+
+function priceForDays(n) {
+  const known = knownDayPrices();
+  if (known[n]) return known[n];
+  const days = Object.keys(known).map(Number).sort((a, b) => a - b);
+  let lo = days.filter(d => d < n).pop(), hi = days.find(d => d > n);
+  if (lo === undefined) lo = days[0];
+  if (hi === undefined) { // ekstrapoler med siste stigning
+    const d2 = days[days.length - 1], d1 = days[days.length - 2] ?? d2;
+    const a2 = toArr(known[d2]), a1 = toArr(known[d1]);
+    return a2.map((v, i) => r5(v + (d1 === d2 ? v * 0.15 : (v - a1[i]) / (d2 - d1)) * (n - d2)));
+  }
+  const aLo = toArr(known[lo]), aHi = toArr(known[hi]);
+  return aLo.map((v, i) => r5(v + (aHi[i] - v) * (n - lo) / (hi - lo)));
+}
+
+let calMonth = new Date(); calMonth.setDate(1);
+let calStart = null, calEnd = null;
+const DAY_MS = 86400000;
+const ddmm = t => { const d = new Date(t); return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`; };
+
+function openCalendar() {
+  calStart = null; calEnd = null;
+  document.getElementById('calWarn').textContent = '';
+  renderCalendar();
+  document.getElementById('calDialog').classList.remove('hidden');
+}
+function closeCalendar() { document.getElementById('calDialog').classList.add('hidden'); }
+function calShift(d) { calMonth.setMonth(calMonth.getMonth() + d); renderCalendar(); }
+
+function renderCalendar() {
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  const mnd = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
+  const first = new Date(y, m, 1);
+  const offset = (first.getDay() + 6) % 7; // mandag først
+  const nDays = new Date(y, m + 1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let cells = ['M','T','O','T','F','L','S'].map(d => `<span class="dow">${d}</span>`).join('');
+  cells += '<span></span>'.repeat(offset);
+  for (let d = 1; d <= nDays; d++) {
+    const t = new Date(y, m, d).getTime();
+    const past = t < today.getTime();
+    const sel = (calStart && t === calStart) || (calEnd && t === calEnd);
+    const inRange = calStart && calEnd && t > calStart && t < calEnd;
+    cells += `<button class="cal-day ${sel ? 'endp' : ''} ${inRange ? 'range' : ''}"
+      ${past ? 'disabled' : `onclick="calPick(${t})"`}>${d}</button>`;
+  }
+  document.getElementById('calBody').innerHTML = `
+    <div class="cal-head">
+      <button onclick="calShift(-1)">‹</button>
+      <span>${mnd[m].charAt(0).toUpperCase() + mnd[m].slice(1)} ${y}</span>
+      <button onclick="calShift(1)">›</button>
+    </div>
+    <div class="cal-grid">${cells}</div>`;
+  updateCalInfo();
+}
+
+function calPick(t) {
+  document.getElementById('calWarn').textContent = '';
+  if (!calStart || (calStart && calEnd)) { calStart = t; calEnd = null; }
+  else if (t <= calStart) { calStart = t; calEnd = null; }
+  else {
+    const days = (t - calStart) / DAY_MS + 1;
+    if (days > 7) {
+      calEnd = calStart + 6 * DAY_MS;
+      document.getElementById('calWarn').textContent = 'Maks 7 dager – perioden er kortet ned';
+    } else calEnd = t;
+  }
+  renderCalendar();
+}
+
+function updateCalInfo() {
+  const info = document.getElementById('calInfo');
+  const btn = document.getElementById('calBtn');
+  if (calStart && calEnd) {
+    const n = (calEnd - calStart) / DAY_MS + 1;
+    const p = priceForDays(n);
+    info.textContent = `${n} dager (${ddmm(calStart)}–${ddmm(calEnd)}) · fra ${nok(Array.isArray(p) ? Math.min(...p) : p)}`;
+    btn.disabled = n < 2;
+  } else {
+    info.textContent = calStart ? `Start ${ddmm(calStart)} – velg siste dag` : 'Trykk på første og siste dag';
+    btn.disabled = true;
+  }
+}
+
+function calConfirm() {
+  const n = (calEnd - calStart) / DAY_MS + 1;
+  state.ticket = `Gjestepass ${n} dager (${ddmm(calStart)}–${ddmm(calEnd)})`;
+  state.price = priceForDays(n);
+  state.qty = emptyQty();
+  document.getElementById('ticketName').textContent = state.ticket;
+  closeCalendar();
+  setProg(3, isHut() ? 4 : 3, 'Antall');
+  renderQty();
+  go(3);
 }
 
 function pickTicket(idx) {
