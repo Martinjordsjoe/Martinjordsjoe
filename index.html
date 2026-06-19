@@ -50,15 +50,16 @@
   }
 
   .phone {
-    width: 100%;
-    max-width: 430px;
+    width: 390px;            /* iPhone-bredde (logiske punkter) */
+    max-width: 100%;
     background: var(--teal-light);
-    border-radius: 32px;
+    border-radius: 44px;     /* iPhone-avrundede hjørner */
     overflow: hidden;
     box-shadow: 0 16px 48px rgba(0,0,0,.35);
     display: flex;
     flex-direction: column;
-    height: min(880px, calc(100dvh - 32px));
+    height: 844px;           /* iPhone-høyde (logiske punkter) */
+    max-height: calc(100dvh - 32px);
     position: relative;
   }
 
@@ -412,6 +413,10 @@
     border-radius: 24px;
     padding: 24px;
   }
+  /* Medlemskap-kortet fyller resten av forsiden så det ikke blir hvitt tomrom nederst */
+  #home .member-card { flex: 1; display: flex; flex-direction: column; }
+  .member-card.cancelled { background: var(--red); }
+  #home .member-card .pill.stats { margin-top: auto; align-self: flex-start; }
   .member-card .mc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
   .member-card h2 { margin: 0; font-size: 22px; color: var(--white); }
   .member-card .line { font-size: 14px; margin: 6px 0; opacity: .9; }
@@ -511,10 +516,12 @@
   .card.compact {
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
     gap: 8px;
     padding: 14px;
     margin-bottom: 0;
+    min-height: 120px;
   }
   .card.compact .icon {
     width: 44px; height: 44px;
@@ -524,8 +531,8 @@
     overflow: hidden;
   }
   .card.compact .icon svg { width: 28px; height: 28px; }
-  .card.compact .title { font-size: 14px; line-height: 1.2; }
-  .card.compact .desc { font-size: 11px; line-height: 1.3; }
+  .card.compact .title { font-size: 13px; line-height: 1.2; }
+  .card.compact .desc { font-size: 10.5px; line-height: 1.3; }
 
   .pill {
     background: var(--white);
@@ -683,6 +690,70 @@
   .lang-opt.on { background: var(--navy); color: var(--white); }
   .hero-right { display: flex; align-items: center; gap: 8px; }
 
+  /* Anleggsinfo på forsiden */
+  .venue-info-head { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; padding: 0 4px; }
+  .venue-info-head .vh-title { font-weight: 500; font-size: 16px; }
+  .add-round {
+    width: 34px; height: 34px; border-radius: 999px; border: none;
+    background: var(--navy); color: var(--white); font-size: 22px; line-height: 1;
+    cursor: pointer; font-family: inherit;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; box-shadow: 0 1px 3px rgba(32,41,69,.12);
+  }
+  #venueTop { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+  .fav-btn {
+    display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+    background: var(--teal-mid); color: var(--navy); border: none; border-radius: 999px;
+    padding: 10px 18px; font-family: inherit; font-size: 14px; font-weight: 500;
+    cursor: pointer;
+  }
+  .fav-btn .fav-plus { font-size: 19px; line-height: 1; }
+  .info-bubble { background: var(--teal-dark); border: 2px solid var(--navy); border-radius: 20px; padding: 16px 18px; position: relative; }
+  .info-bubble .ib-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding-right: 30px; }
+  .info-bubble .ib-ico { width: 30px; height: 30px; flex-shrink: 0; }
+  .info-bubble .ib-ico svg { width: 30px; height: 30px; }
+  /* hodet på ikonet har samme teal-dark som boksen – gjør det lyseblått her */
+  .info-bubble .ib-ico svg circle[fill="#60AFBB"] { fill: var(--teal-light); }
+  .info-bubble .ib-title { font-weight: 500; font-size: 16px; }
+  .info-bubble .ib-head .acc-badge { margin-left: auto; }
+  .info-bubble .ib-remove {
+    position: absolute; top: 14px; right: 14px; width: 26px; height: 26px;
+    border-radius: 999px; border: none; background: var(--white); color: var(--navy);
+    cursor: pointer; font-family: inherit; font-size: 13px;
+  }
+  .info-bubble .ib-row { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 12px; background: var(--teal-light); border-radius: 10px; margin-top: 6px; }
+  .info-bubble .busy-title { font-size: 12px; font-weight: 500; color: var(--white); margin: 12px 0 6px; }
+  .info-bubble .busy-chart { display: flex; align-items: flex-end; gap: 5px; height: 80px; }
+  .info-bubble .busy-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; }
+  .info-bubble .busy-bar { width: 100%; border-radius: 5px 5px 0 0; background: var(--teal-light); }
+  .info-bubble .busy-bar.peak { background: var(--red); }
+  .info-bubble .busy-lbl { font-size: 10px; color: var(--white); opacity: .8; }
+
+  /* Profil-meny og undersider */
+  #profile, #profileSub { background: var(--white); flex: 1; padding: 12px 16px 24px; overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+  .pf-bar { display: flex; align-items: center; justify-content: space-between; padding: 4px 0 6px; }
+  .pf-bar .pf-title { font-weight: 500; font-size: 17px; }
+  .pf-bell { border: none; background: var(--teal-light); width: 34px; height: 34px; border-radius: 999px; font-family: inherit; cursor: pointer; }
+  .pf-banner { background: var(--teal-light); border: none; border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; font-family: inherit; color: var(--navy); text-align: left; width: 100%; }
+  .pf-bicon { width: 48px; height: 48px; border-radius: 12px; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .pf-banner .pf-btxt { flex: 1; font-size: 14px; }
+  .pf-avatar { width: 44px; height: 44px; border-radius: 999px; background: var(--teal-mid); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .pf-section { font-size: 19px; font-weight: 500; margin: 14px 4px 2px; }
+  .pf-group { display: flex; flex-direction: column; gap: 6px; }
+  .pf-row { background: var(--teal-light); border: none; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; font-family: inherit; font-size: 15px; color: var(--navy); cursor: pointer; }
+  .pf-row .pf-ico { width: 22px; flex-shrink: 0; }
+  .pf-row .pf-label { flex: 1; }
+  .pf-row .pf-chev { opacity: .45; }
+  .pf-edit { background: var(--teal-light); border: none; border-radius: 999px; padding: 15px; width: 100%; font-family: inherit; font-size: 15px; font-weight: 500; color: var(--navy); cursor: pointer; }
+  .pf-logout { background: var(--red); color: var(--navy); border: none; border-radius: 999px; padding: 16px; width: 100%; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 14px; }
+  .pf-logo { text-align: center; padding: 28px 0 8px; font-weight: 500; letter-spacing: 1px; font-size: 26px; color: var(--teal-mid); }
+  .pf-p { font-size: 14px; line-height: 1.55; color: var(--navy); padding: 2px 4px; }
+  .pf-inforow { display: flex; justify-content: space-between; gap: 12px; background: var(--teal-light); border-radius: 12px; padding: 12px 16px; font-size: 14px; }
+  .pf-field { background: var(--grey-1); border-radius: 12px; padding: 14px 16px; font-size: 14px; word-break: break-all; }
+
+  /* Favorittanlegg-velger: kortere liste med scroll */
+  #addVenueList { max-height: 50vh; overflow-y: auto; display: flex; flex-direction: column; }
+
   .hidden { display: none !important; }
   .footer-note {
     text-align: center; font-size: 11px; color: var(--teal-mid);
@@ -743,9 +814,10 @@
             <button class="lang-opt on" data-lang="no" onclick="setLang('no')">NO</button>
             <button class="lang-opt" data-lang="en" onclick="setLang('en')">EN</button>
           </div>
-          <div class="profile">Profil 🙂</div>
+          <button class="profile" style="border:none; cursor:pointer; font-family:inherit;" onclick="openProfile()">Profil 🙂</button>
         </div>
       </div>
+      <div id="venueTop"></div>
       <div class="hei">Hei, Martin!</div>
     </div>
     <button class="home-btn dark hidden" id="myTicketsBtnM" onclick="showTickets()">
@@ -828,6 +900,86 @@
       <div class="dotgrid" id="dotGrid"></div>
       <div class="s-sub" style="margin-top:12px;">10 av 91 dager · sesongen 2025/2026</div>
     </div>
+  </div>
+
+  <!-- PROFIL-MENY -->
+  <div id="profile" class="hidden">
+    <div class="pf-bar">
+      <button class="back" onclick="showHome()">← Hjem</button>
+      <span class="pf-title">Profil</span>
+      <button class="pf-bell">🔔</button>
+    </div>
+
+    <button class="pf-banner" onclick="openProfileSub('venn')">
+      <span class="pf-bicon">🎁</span>
+      <span class="pf-btxt"><b>Ta med en venn gratis</b> 🎿🚲🏁<br><span style="opacity:.65;">1 uke siden</span></span>
+      <span class="pf-chev">›</span>
+    </button>
+
+    <div class="member-card" id="pfMemberCard">
+      <div class="mc-top">
+        <h2>Medlem</h2>
+        <span class="pf-avatar">🧑</span>
+      </div>
+      <div class="line">Martin Skimore</div>
+      <div class="line" id="pfMemberStatus">✓ Gyldig til 15.01.2027</div>
+      <button class="pill" style="margin-top:14px; align-self:flex-start;" onclick="openProfileSub('endre')">Endre ›</button>
+    </div>
+
+    <button class="pf-edit" onclick="openProfileSub('rediger')">👤 Rediger profil</button>
+
+    <div class="pf-section">Oppgrader til familiemedlemskap</div>
+    <p class="pf-p">Ved å oppgradere ditt medlemskap til et familiemedlemskap, kan du ha 2 foreldre og 3 barn t.o.m. 24 år som bor under samme hustak til bare 799,- /måned.</p>
+    <button class="cta" style="margin-top:2px;" onclick="openFamily()">Kjøp familiemedlemskap</button>
+
+    <div class="pf-section">Betaling og faktura</div>
+    <div class="pf-group">
+      <button class="pf-row" onclick="openProfileSub('betalingsmetode')"><span class="pf-ico">💳</span><span class="pf-label">Endre betalingsmetode</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('fakturaer')"><span class="pf-ico">🧾</span><span class="pf-label">Tidligere fakturaer</span><span class="pf-chev">›</span></button>
+    </div>
+
+    <div class="pf-section">Kommunikasjon</div>
+    <div class="pf-group">
+      <button class="pf-row" onclick="openProfileSub('innstillinger')"><span class="pf-ico">🔔</span><span class="pf-label">Innstillinger</span><span class="pf-chev">›</span></button>
+    </div>
+
+    <div class="pf-section">Anlegg</div>
+    <div class="pf-group">
+      <button class="pf-row" onclick="openProfileSub('venue:oslo')"><span class="pf-ico">⛷️</span><span class="pf-label">Skimore Oslo</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:drammen')"><span class="pf-ico">⛷️</span><span class="pf-label">Skimore Drammen</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:kongsberg')"><span class="pf-ico">⛷️</span><span class="pf-label">Skimore Kongsberg</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:sno')"><span class="pf-ico">❄️</span><span class="pf-label">SNØ</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:kjelke')"><span class="pf-ico">🛷</span><span class="pf-label">Kjelke Korketrekkeren</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:hut')"><span class="pf-ico">🧗</span><span class="pf-label">Høyt under taket</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:vestfold')"><span class="pf-ico">🧗</span><span class="pf-label">Høyt & Lavt Vestfold</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:ingierkollen')"><span class="pf-ico">⛷️</span><span class="pf-label">Ingierkollen Slalåmsenter</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:varingskollen')"><span class="pf-ico">⛷️</span><span class="pf-label">Varingskollen</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:kirkerud')"><span class="pf-ico">⛷️</span><span class="pf-label">Kirkerudbakken</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:uvdal')"><span class="pf-ico">⛷️</span><span class="pf-label">Uvdal</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('venue:hovden')"><span class="pf-ico">⛷️</span><span class="pf-label">Hovden</span><span class="pf-chev">›</span></button>
+    </div>
+
+    <div class="pf-section">Kundeservice</div>
+    <div class="pf-group">
+      <button class="pf-row" onclick="openProfileSub('kontakt')"><span class="pf-ico">🎧</span><span class="pf-label">Kontakt oss</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('skipatrulje')"><span class="pf-ico">⛑️</span><span class="pf-label">Kontakt skipatrulje</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('faq')"><span class="pf-ico">❓</span><span class="pf-label">FAQ</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('betingelser')"><span class="pf-ico">ℹ️</span><span class="pf-label">Betingelser</span><span class="pf-chev">›</span></button>
+      <button class="pf-row" onclick="openProfileSub('personvern')"><span class="pf-ico">🔒</span><span class="pf-label">Personvern</span><span class="pf-chev">›</span></button>
+    </div>
+
+    <button class="pf-logout" onclick="logOut()">⎋ Logg ut</button>
+    <div class="pf-logo">SKIM<span>O</span>RE</div>
+  </div>
+
+  <!-- PROFIL-UNDERSIDE -->
+  <div id="profileSub" class="hidden">
+    <div class="pf-bar">
+      <button class="back" onclick="openProfile()">‹ Tilbake</button>
+      <span class="pf-title" id="pfSubTitle"></span>
+      <span style="width:34px;"></span>
+    </div>
+    <div id="pfSubBody"></div>
   </div>
 
   <!-- MINE BILLETTER -->
@@ -955,6 +1107,23 @@
     </div>
   </div>
 
+  <!-- DIALOG: velg dato (klatre / kjelke / aktivitet) -->
+  <div id="dateDialog" class="overlay hidden">
+    <div class="dialog left">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <h3 style="margin:0;">Velg dato</h3>
+        <button class="close" onclick="closeDateCal()">✕</button>
+      </div>
+      <div class="step-label" id="lblDate"></div>
+      <div class="steps" id="barDate"></div>
+      <div id="dateCalBody"></div>
+      <div class="cal-info" id="dateCalInfo">Velg en dag</div>
+      <div class="d-actions" style="margin-top:10px;">
+        <button class="confirm-btn" style="width:100%;" id="dateCalBtn" disabled onclick="confirmDateCal()">Til betaling</button>
+      </div>
+    </div>
+  </div>
+
   <!-- DIALOG: velg adgang (Keycard / mobilbillett) -->
   <div id="accessDialog" class="overlay hidden">
     <div class="dialog left">
@@ -963,6 +1132,17 @@
         <button class="close" onclick="closeAccess()">✕</button>
       </div>
       <div id="accessBody"></div>
+    </div>
+  </div>
+
+  <!-- DIALOG: legg til anlegg på forsiden -->
+  <div id="addVenueDialog" class="overlay hidden">
+    <div class="dialog left">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="margin:0;">Velg anlegg</h3>
+        <button class="close" onclick="closeAddVenue()">✕</button>
+      </div>
+      <div id="addVenueList"></div>
     </div>
   </div>
 
@@ -1047,7 +1227,7 @@
         <button class="lang-opt on" data-lang="no" onclick="setLang('no')">NO</button>
         <button class="lang-opt" data-lang="en" onclick="setLang('en')">EN</button>
       </div>
-      <div class="profile">Profil 🙂</div>
+      <button class="profile" style="border:none; cursor:pointer; font-family:inherit;" onclick="openProfile()">Profil 🙂</button>
     </div>
   </div>
 
@@ -1056,19 +1236,23 @@
     <!-- STEG 1: Velg anlegg -->
     <div id="step1">
       <div class="sheet-header">
-        <h1>Book og kjøp adgang</h1>
+        <h1>Velg anlegg og kjøp adgang</h1>
         <button class="close" onclick="showHome()">✕</button>
       </div>
       <div class="step-label">Steg 1 av 4 – Velg anlegg</div>
       <div class="steps"><div class="done"></div><div></div><div></div><div></div></div>
-      <button class="card" style="margin-bottom:14px; background:var(--navy); color:var(--white);" onclick="startMembership()">
+      <h2 style="margin-top:6px;">Medlemskap: Alle anlegg, Hele året</h2>
+      <button class="card" style="margin-bottom:4px; background:var(--navy); color:var(--white);" onclick="startMembership()">
         <span class="icon">🎫</span>
         <span class="txt">
-          <span class="title">Medlemskap</span><br>
+          <span class="title">Kjøp medlemskap</span><br>
           <span class="desc">Gyldig i alle anleggene fra 289 kr/mnd (3 468 kr/år)</span>
         </span>
         <span class="pill">Kjøp</span>
       </button>
+      <div id="includedSection"></div>
+      <h2>Gjestepass</h2>
+      <input class="input" id="venueSearch" placeholder="Søk etter anlegg" oninput="filterVenues()" style="margin-bottom:10px;">
       <div id="venueList" class="venue-grid"></div>
     </div>
 
@@ -1100,7 +1284,7 @@
       <h2>Hvem skal ha billett?</h2>
       <div id="qtyList"></div>
 
-      <button class="cta" id="toPayBtn" onclick="go(4)" disabled>Til betaling</button>
+      <button class="cta" id="toPayBtn" onclick="proceedFromQty()" disabled>Til betaling</button>
     </div>
 
     <!-- STEG 4: Oppsummering og betaling -->
@@ -1244,13 +1428,32 @@ const DICT = {
   'Mobilbilletten er aktiv – Keycardet er blokkert og kan ikke lenger brukes.':'The mobile ticket is active – your Keycard is blocked and can no longer be used.',
   'Mobilbillett aktiv':'Mobile ticket active', 'Keycard blokkert':'Keycard blocked',
   'Keycard aktivt':'Keycard active', 'Adgang: Keycard':'Access: Keycard',
+  // Anleggsinfo på forsiden
+  'Mine anlegg':'My venues', 'Favoritt anlegg':'Favorite resort', 'Åpent':'Open', 'Stengt':'Closed',
+  'Åpningstider':'Opening hours', 'Heiser åpne':'Lifts open', 'Løyper åpne':'Slopes open',
+  'Snødybde':'Snow depth', 'Temperatur':'Temperature', 'Bakkelengde':'Slope length',
+  'Sentre åpne':'Centres open', 'Ruter':'Routes',
+  // Profil-meny
+  '← Hjem':'← Home', 'Profil':'Profile', 'Medlem':'Member', 'Endre ›':'Edit ›',
+  '✓ Gyldig til 15.01.2027':'✓ Valid until 15.01.2027', '👤 Rediger profil':'👤 Edit profile',
+  '⚠ Stopper automatisk den 15.01.27':'⚠ Stops automatically on 15.01.27',
+  'Oppgrader til familiemedlemskap':'Upgrade to family membership',
+  'Ved å oppgradere ditt medlemskap til et familiemedlemskap, kan du ha 2 foreldre og 3 barn t.o.m. 24 år som bor under samme hustak til bare 799,- /måned.':'By upgrading your membership to a family membership, you can have 2 adults and 3 children up to age 24 living in the same household for only 799,- /month.',
+  'Betaling og faktura':'Payment and invoices', 'Endre betalingsmetode':'Change payment method',
+  'Tidligere fakturaer':'Previous invoices', 'Kommunikasjon':'Communication', 'Innstillinger':'Settings',
+  'Våre anlegg':'Our venues', 'Partneranlegg':'Partner venues',
+  'Kundeservice':'Customer service', 'Kontakt oss':'Contact us', 'Kontakt skipatrulje':'Contact ski patrol',
+  'Betingelser':'Terms', 'Personvern':'Privacy', '⎋ Logg ut':'⎋ Log out',
+  'Ta med en venn gratis':'Bring a friend for free', '1 uke siden':'1 week ago',
+  'Kjøp gjestepass':'Buy guest pass',
   // Kalender
   'Velg dager (2–7)':'Select days (2–7)', 'Trykk på første og siste dag':'Tap the first and last day',
   'Velg antall billetter':'Choose number of tickets',
   'Start':'Start', 'velg siste dag':'select last day',
   'Maks 7 dager – perioden er kortet ned':'Max 7 days – period shortened',
   // Booking
-  'Book og kjøp adgang':'Book and buy access',
+  'Velg anlegg og kjøp adgang':'Choose venue and buy access',
+  'Medlemskap: Alle anlegg, Hele året':'Membership: All venues, All year',
   'Velg anlegg':'Select venue', 'Velg billett':'Select ticket', 'Antall':'Quantity', 'Oppsummering':'Summary',
   'Gyldig i alle anleggene fra 289 kr/mnd (3 468 kr/år)':'Valid at all venues from 289 kr/month (3 468 kr/year)',
   'Kjøp':'Buy',
@@ -1269,6 +1472,11 @@ const DICT = {
   // Personkategorier
   'Knøtt':'Toddler', 'Barn':'Child', 'Voksen':'Adult', 'Senior':'Senior', 'Ungdom':'Youth',
   '0–6 år':'age 0–6', '7–15 år':'age 7–15', '16–66 år':'age 16–66', '67+':'67+',
+  // Gratis for medlem / utstyr
+  'Gratis':'Free', 'Inkludert i medlemskap':'Included in membership', 'Inkludert i medlemskapet':'Included in the membership', 'Fullfør booking':'Complete booking',
+  'Når er det travelt?':'When is it busy?', 'Velg dato':'Select date', 'Velg en dag':'Select a day',
+  'Søk etter anlegg':'Search venues', 'Ingen anlegg funnet':'No venues found',
+  'Utstyr':'Equipment', 'Book utstyr':'Book equipment',
   // Billettgrupper
   'Gjestepass':'Guest pass', 'Flerdagers kort':'Multi-day pass', 'Enkelttur':'Single run',
   'Andre aktiviteter':'Other activities', 'Halvdagskort':'Half-day pass', 'Langrenn':'Cross-country',
@@ -1281,6 +1489,7 @@ const DICT = {
   'Kjelkebakke for liten og stor':'Sledding hill for young and old',
   'Innendørs alpint og langrenn':'Indoor alpine and cross-country',
   'Innendørs klatring – 4 sentre':'Indoor climbing – 4 centres',
+  'Klatrepark og høydeløype':'Climbing park and high-ropes course',
   // Billettnavn
   'Gjestepass 1 dag':'Guest pass 1 day', 'Gjestepass 2 dager':'Guest pass 2 days',
   'Gjestepass 3 dager':'Guest pass 3 days', 'Gjestepass 4 dager':'Guest pass 4 days',
@@ -1339,6 +1548,9 @@ function setLang(to){
   updateAccessUI();
   selectMemType(MEM.type);
   renderPersons();
+  renderVenueInfo();
+  updateMemberCard();
+  if (notEmpty('addVenueList')) renderAddVenueList();
   if (state.venue) {
     if (state.venue.locations && !state.location) renderLocations();
     else if (notEmpty('ticketList')) renderTickets();
@@ -1406,6 +1618,9 @@ const VENUES = [
     ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'],
     ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
     ['Enkelttur', SKIMORE_PRISER.enkelt, 'Enkelttur'] ]},
+  { id:'osloklatre', name:'Skimore Oslo Klatrepark', icon:'climb', desc:'Klatrepark og høydeløype', freeForMembers:true, membersOnly:true, needsDate:true, tickets:[
+    ['Inngang', 399, 'Inngang'], ['Familiebillett', 1099, 'Inngang'],
+    ['Enkelttur', 89, 'Enkelttur'] ]},
   { id:'drammen', name:'Skimore Drammen', icon:'ski', desc:'Alpint og heiser', tickets:[
     ['Gjestepass 1 dag', SKIMORE_PRISER.dag1, 'Gjestepass'],
     ['Gjestepass 2 dager', SKIMORE_PRISER.dag2, 'Flerdagers kort'], ['Gjestepass 3 dager', SKIMORE_PRISER.dag3, 'Flerdagers kort'], ['Gjestepass 1 uke', SKIMORE_PRISER.uke, 'Flerdagers kort'],
@@ -1439,17 +1654,22 @@ const VENUES = [
     ['Gjestepass 1 dag', 529, 'Gjestepass'],
     ['Gjestepass 2 dager', 949, 'Flerdagers kort'], ['Gjestepass 3 dager', 1279, 'Flerdagers kort'], ['Gjestepass 1 uke', 2099, 'Flerdagers kort'],
     ['Enkelttur', 95, 'Enkelttur'] ]},
-  { id:'kjelke', name:'Kjelke Korketrekkeren', icon:'ake', desc:'Kjelkebakke for liten og stor', tickets:[
+  { id:'kjelke', name:'Kjelke Korketrekkeren', icon:'ake', desc:'Kjelkebakke for liten og stor', freeForMembers:true, needsDate:true, tickets:[
     ['Kjelke liten (under 160 cm)', 115, 'Kjelke'],
-    ['Kjelke stor (over 160 cm)', 150, 'Kjelke'] ]},
+    ['Kjelke stor (over 160 cm)', 150, 'Kjelke'],
+    ['Book utstyr', 99, 'Utstyr'] ]},
   { id:'sno', name:'SNØ', icon:'ski', desc:'Innendørs alpint og langrenn', tickets:[
     ['Gjestepass Ukedag', 649, 'Gjestepass'], ['Gjestepass Helg', 749, 'Gjestepass'],
     ['Langrenn 3 timer', 249, 'Langrenn'], ['Langrenn 1 dag', 349, 'Langrenn'],
     ['Langrenn & Alpin Ukedag', 799, 'Kombinasjonskort'], ['Langrenn & Alpin Helg', 899, 'Kombinasjonskort'] ]},
   { id:'hut', name:'Høyt under taket', mono:'HUT', icon:'climb', desc:'Innendørs klatring – 4 sentre',
-    locations:['Moss','Skien','Eidsvoll','Tønsberg'], tickets:[
+    locations:['Moss','Skien','Eidsvoll','Tønsberg'], freeForMembers:true, freeTickets:['Inngang med utstyr'], needsDate:true, tickets:[
     ['Inngang med utstyr', 449, 'Inngang'], ['Inngang', 349, 'Inngang'], ['Familiebillett', 1199, 'Inngang'],
-    ['Klippekort 10 klipp', 2999, 'Klippekort'], ['Klippekort Vinterkort', 1999, 'Klippekort'] ]},
+    ['Klippekort 10 klipp', 2999, 'Klippekort'], ['Klippekort Vinterkort', 1999, 'Klippekort'],
+    ['Book utstyr', 149, 'Utstyr'] ]},
+  { id:'vestfold', name:'Høyt & Lavt Vestfold', icon:'climb', desc:'Klatrepark og høydeløype', freeForMembers:true, needsDate:true, tickets:[
+    ['Inngang', 449, 'Inngang'], ['Familiebillett', 1299, 'Inngang'],
+    ['Enkelttur', 99, 'Enkelttur'] ]},
 ];
 
 const PERSONS = [
@@ -1461,10 +1681,15 @@ const PERSONS = [
 
 const emptyQty = () => ({ knott:0, barn:0, voksen:0, senior:0 });
 
+// Gratis for innloggede medlemmer på utvalgte anlegg (Kjelke, Høyt under taket)
+const isFree = () => !!(state.venue && state.venue.freeForMembers && hasMembership && !state.asGuestPass);
 // Pris for personkategori i (array = eksakt pristabell, tall = voksenpris med faktor)
-const priceFor = i => Array.isArray(state.price) ? state.price[i] : Math.round(state.price * PERSONS[i].factor);
+const priceFor = i => isFree() ? 0 : (Array.isArray(state.price) ? state.price[i] : Math.round(state.price * PERSONS[i].factor));
+const fmtPrice = n => isFree() ? tr('Gratis') : nok(n);
 const isHut = () => !!(state.venue && state.venue.locations);
-const totSteps = () => isHut() ? 5 : 4;
+const needsDate = () => !!(state.venue && state.venue.needsDate);
+const totSteps = () => (isHut() ? 5 : 4) + (needsDate() ? 1 : 0);
+const dateStepNo = () => isHut() ? 5 : 4;   // datovalg kommer rett etter Antall
 
 function setProg(div, n, label) {
   document.getElementById('lbl'+div).textContent = `${tr('Steg')} ${n} ${tr('av')} ${totSteps()} – ${tr(label)}`;
@@ -1472,7 +1697,7 @@ function setProg(div, n, label) {
     Array.from({length: totSteps()}, (_,i) => `<div class="${i < n ? 'done' : ''}"></div>`).join('');
 }
 
-let state = { venue:null, location:null, ticket:null, price:0, qty:emptyQty(), pay:'vipps' };
+let state = { venue:null, location:null, ticket:null, price:0, qty:emptyQty(), pay:'vipps', asGuestPass:false, date:null };
 
 const displayName = () => state.location ? `${state.venue.name} ${state.location}` : state.venue.name;
 
@@ -1489,7 +1714,7 @@ function go(step) {
 
 function setReceipt() {
   document.getElementById('receiptText').textContent =
-    `${trTicket(state.ticket)} · ${displayName()} · ${nok(total())}`;
+    `${trTicket(state.ticket)} · ${displayName()}${state.date ? ' · ' + fmtDate(state.date) : ''} · ${fmtPrice(total())}`;
 }
 
 function monogram(name) {
@@ -1498,16 +1723,137 @@ function monogram(name) {
 }
 
 function renderVenues() {
-  document.getElementById('venueList').innerHTML = VENUES.map((v,i) => `
-    <button class="card compact" onclick="pickVenue('${v.id}')">
-      <span class="icon">${ICONS[v.icon]}</span>
-      <span class="txt"><span class="title">${v.name}</span><br><span class="desc">${tr(v.desc)}</span></span>
+  // Inkludert i medlemskap (kun innlogget) – Kjelke og Høyt under taket gratis
+  const incEl = document.getElementById('includedSection');
+  if (hasMembership) {
+    const inc = VENUES.filter(v => v.freeForMembers);
+    incEl.innerHTML = `<h2>${tr('Inkludert i medlemskapet')}</h2><div class="venue-grid">` +
+      inc.map(v => `
+      <button class="card compact mid" onclick="pickVenue('${v.id}', false)">
+        <span class="icon">${ICONS[v.icon]}</span>
+        <span class="txt"><span class="title">${v.name}</span><br><span class="desc">${tr('Gratis')}</span></span>
+      </button>`).join('') + `</div>`;
+  } else {
+    incEl.innerHTML = '';
+  }
+  // Gjestepass – alle anlegg til ordinær pris (også for medlemmer), unntatt medlems-kun anlegg
+  const q = venueQuery;
+  const list = VENUES.filter(v => !v.membersOnly && (!q || v.name.toLowerCase().includes(q)));
+  document.getElementById('venueList').innerHTML = list.length
+    ? list.map(v => `
+      <button class="card compact" onclick="pickVenue('${v.id}', true)">
+        <span class="icon">${ICONS[v.icon]}</span>
+        <span class="txt"><span class="title">${v.name}</span><br><span class="desc">${tr(v.desc)}</span></span>
+      </button>`).join('')
+    : `<div style="grid-column:1/-1; opacity:.6; font-size:13px; padding:8px 4px;">${tr('Ingen anlegg funnet')}</div>`;
+}
+
+function filterVenues() {
+  venueQuery = document.getElementById('venueSearch').value.trim().toLowerCase();
+  renderVenues();
+}
+
+// ---- Anleggsinfo-bobler på forsiden ----
+const VENUE_INFO = {
+  oslo:          { status:'open', rows:{ 'Åpningstider':'10:00–21:00', 'Heiser åpne':'4 av 5', 'Løyper åpne':'7 av 8', 'Snødybde':'45 cm', 'Temperatur':'-3 °C' } },
+  drammen:       { status:'open', rows:{ 'Åpningstider':'10:00–20:00', 'Heiser åpne':'3 av 3', 'Løyper åpne':'5 av 6', 'Snødybde':'40 cm', 'Temperatur':'-2 °C' } },
+  kongsberg:     { status:'open', rows:{ 'Åpningstider':'10:00–20:00', 'Heiser åpne':'4 av 4', 'Løyper åpne':'9 av 10', 'Snødybde':'55 cm', 'Temperatur':'-5 °C' } },
+  kirkerud:      { status:'open', rows:{ 'Åpningstider':'10:00–21:00', 'Heiser åpne':'2 av 3', 'Løyper åpne':'4 av 5', 'Snødybde':'38 cm', 'Temperatur':'-1 °C' } },
+  ingierkollen:  { status:'open', rows:{ 'Åpningstider':'11:00–20:00', 'Heiser åpne':'2 av 2', 'Løyper åpne':'3 av 4', 'Snødybde':'35 cm', 'Temperatur':'-2 °C' } },
+  varingskollen: { status:'open', rows:{ 'Åpningstider':'10:00–19:00', 'Heiser åpne':'3 av 4', 'Løyper åpne':'6 av 7', 'Snødybde':'42 cm', 'Temperatur':'-4 °C' } },
+  uvdal:         { status:'open', rows:{ 'Åpningstider':'09:00–16:00', 'Heiser åpne':'5 av 6', 'Løyper åpne':'12 av 14', 'Snødybde':'70 cm', 'Temperatur':'-8 °C' } },
+  hovden:        { status:'open', rows:{ 'Åpningstider':'09:00–16:00', 'Heiser åpne':'8 av 9', 'Løyper åpne':'20 av 22', 'Snødybde':'85 cm', 'Temperatur':'-9 °C' } },
+  kjelke:        { status:'open', rows:{ 'Åpningstider':'11:00–18:00', 'Bakkelengde':'350 m', 'Snødybde':'45 cm', 'Temperatur':'-3 °C' } },
+  sno:           { status:'open', rows:{ 'Åpningstider':'08:00–21:00', 'Heiser åpne':'2 av 2', 'Løyper åpne':'3 av 3', 'Temperatur':'-4 °C' } },
+  hut:           { status:'open', rows:{ 'Åpningstider':'10:00–22:00', 'Sentre åpne':'4 av 4', 'Ruter':'120+' } },
+  vestfold:      { status:'open', rows:{ 'Åpningstider':'10:00–18:00', 'Sentre åpne':'1 av 1', 'Ruter':'40+' } },
+  osloklatre:    { status:'open', rows:{ 'Åpningstider':'10:00–20:00', 'Sentre åpne':'1 av 1', 'Ruter':'30+' } },
+};
+const DEFAULT_INFO = { status:'open', rows:{ 'Åpningstider':'10:00–20:00' } };
+let addedVenues = [];
+let favLoc = null;   // valgt HUT-senter for favorittanlegget
+let venueQuery = ''; // søketekst på kjøp-siden
+const valTr = v => LANG === 'en' ? v.replace(/ av /g, ' of ') : v;
+
+// Pseudo-tilfeldig, men stabil "travelt"-kurve per anlegg/senter
+function busyData(key) {
+  const base = [2, 3, 4, 6, 8, 9, 5];
+  let h = 0; for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) % 101;
+  return base.map((v, i) => Math.max(1, Math.min(10, v + ((h + i * 13) % 5) - 2)));
+}
+
+function openAddVenue() { renderAddVenueList(); document.getElementById('addVenueDialog').classList.remove('hidden'); }
+function closeAddVenue() { document.getElementById('addVenueDialog').classList.add('hidden'); }
+
+function renderAddVenueList() {
+  document.getElementById('addVenueList').innerHTML = VENUES.map(v => `
+    <button class="radio-row" style="align-items:flex-start;" onclick="${v.locations ? `pickHutForFav('${v.id}')` : `addVenueInfo('${v.id}')`}">
+      <span class="ib-ico">${ICONS[v.icon]}</span>
+      <span>${v.name}<br><span style="opacity:.6; font-size:11.5px;">${tr(v.desc)}</span></span>
     </button>`).join('');
 }
 
-function pickVenue(id) {
+// HUT har flere sentre – velg hvilket
+function pickHutForFav(id) {
+  const v = VENUES.find(x => x.id === id);
+  document.getElementById('addVenueList').innerHTML =
+    `<button class="radio-row" onclick="renderAddVenueList()"><span>‹ ${tr('Tilbake')}</span></button>` +
+    v.locations.map(loc => `
+      <button class="radio-row" style="align-items:flex-start;" onclick="addVenueInfo('${id}', '${loc}')">
+        <span class="ib-ico">${ICONS[v.icon]}</span>
+        <span>${v.name} – ${loc}</span>
+      </button>`).join('');
+}
+
+function addVenueInfo(id, loc) {
+  addedVenues = [id];   // kun ett favorittanlegg om gangen
+  favLoc = loc || null;
+  closeAddVenue();
+  renderVenueInfo();
+}
+function removeVenueInfo(id) { addedVenues = addedVenues.filter(x => x !== id); favLoc = null; renderVenueInfo(); }
+
+function renderVenueInfo() {
+  const top = document.getElementById('venueTop');
+  if (addedVenues.length === 0) {
+    top.innerHTML = `<button class="fav-btn" onclick="openAddVenue()"><span class="fav-plus">+</span> ${tr('Favoritt anlegg')}</button>`;
+    return;
+  }
+  top.innerHTML = addedVenues.map(id => {
+    const v = VENUES.find(x => x.id === id);
+    const info = VENUE_INFO[id] || DEFAULT_INFO;
+    const title = v.name + (favLoc ? ' – ' + favLoc : '');
+    const rows = Object.entries(info.rows).map(([k, val]) =>
+      `<div class="ib-row"><span>${tr(k)}</span><span>${valTr(val)}</span></div>`).join('');
+    // Travelt-graf vises kun på Høyt under taket (per senter) – holder de andre boblene små
+    let chart = '';
+    if (v.locations) {
+      const data = busyData(id + (favLoc ? '@' + favLoc : ''));
+      const times = ['10', '12', '14', '16', '18', '20', '22'];
+      const peak = data.indexOf(Math.max(...data));
+      chart = `<div class="busy-title">${tr('Når er det travelt?')}</div><div class="busy-chart">` +
+        data.map((val, i) => `<div class="busy-col"><div class="busy-bar ${i === peak ? 'peak' : ''}" style="height:${val * 8}px"></div><span class="busy-lbl">${times[i]}</span></div>`).join('') +
+        `</div>`;
+    }
+    return `
+      <div class="info-bubble">
+        <button class="ib-remove" onclick="removeVenueInfo('${id}')">✕</button>
+        <div class="ib-head">
+          <span class="ib-ico">${ICONS[v.icon]}</span>
+          <span class="ib-title">${title}</span>
+          <span class="acc-badge ${info.status === 'open' ? 'green' : 'red'}">${info.status === 'open' ? tr('Åpent') : tr('Stengt')}</span>
+        </div>
+        ${rows}
+        ${chart}
+      </div>`;
+  }).join('');
+}
+
+function pickVenue(id, guest) {
   state.venue = VENUES.find(v => v.id === id);
+  state.asGuestPass = !!guest;
   state.location = null;
+  state.date = null;
   document.getElementById('venueName').textContent = state.venue.name;
   if (state.venue.locations) {
     renderLocations();
@@ -1536,19 +1882,21 @@ function pickLocation(loc) {
 }
 
 function ticketCard([t, p], idx) {
+  const free = isFree();
   const voksen = Array.isArray(p) ? p[2] : p;
   const fra = Array.isArray(p) ? Math.min(...p) : Math.round(p * 0.4);
   return `
     <button class="card" onclick="pickTicket(${idx})">
       <span class="icon">${ICONS[state.venue.icon]}</span>
-      <span class="txt"><span class="title">${trTicket(t)}</span><br><span class="desc">${tr('Fra')} ${nok(fra)}</span></span>
-      <span class="price">${nok(voksen)}</span>
+      <span class="txt"><span class="title">${trTicket(t)}</span><br><span class="desc">${free ? tr('Inkludert i medlemskap') : tr('Fra') + ' ' + nok(fra)}</span></span>
+      <span class="price">${free ? tr('Gratis') : nok(voksen)}</span>
     </button>`;
 }
 
 function renderTickets() {
   setProg(2, isHut() ? 3 : 2, 'Velg billett');
-  const entries = state.venue.tickets.map((t, i) => [t, i]);
+  let entries = state.venue.tickets.map((t, i) => [t, i]);
+  if (isFree() && state.venue.freeTickets) entries = entries.filter(([t]) => state.venue.freeTickets.includes(t[0]));
   const main = entries.filter(([t]) => !t[2]);
   const groups = {};
   entries.filter(([t]) => t[2]).forEach(e => (groups[e[0][2]] = groups[e[0][2]] || []).push(e));
@@ -1680,6 +2028,52 @@ function calConfirm() {
   go(3);
 }
 
+// ---- Enkelt datovalg (klatre/kjelke/aktivitet) ----
+let dateMonth = new Date(); dateMonth.setDate(1);
+let pickedDate = null;
+const MND = ['januar','februar','mars','april','mai','juni','juli','august','september','oktober','november','desember'];
+const fmtDate = t => { const d = new Date(t); return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`; };
+
+function openDateCal() {
+  pickedDate = null;
+  dateMonth = new Date(); dateMonth.setDate(1);
+  setProg('Date', dateStepNo(), 'Velg dato');
+  renderDateCal();
+  document.getElementById('dateDialog').classList.remove('hidden');
+}
+function closeDateCal() { document.getElementById('dateDialog').classList.add('hidden'); }
+function dateShift(d) { dateMonth.setMonth(dateMonth.getMonth() + d); renderDateCal(); }
+
+function renderDateCal() {
+  const y = dateMonth.getFullYear(), m = dateMonth.getMonth();
+  const offset = (new Date(y, m, 1).getDay() + 6) % 7;
+  const nDays = new Date(y, m + 1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let cells = ['M','T','O','T','F','L','S'].map(d => `<span class="dow">${d}</span>`).join('');
+  cells += '<span></span>'.repeat(offset);
+  for (let d = 1; d <= nDays; d++) {
+    const t = new Date(y, m, d).getTime();
+    const past = t < today.getTime();
+    const sel = pickedDate === t;
+    cells += `<button class="cal-day ${sel ? 'endp' : ''}" ${past ? 'disabled' : `onclick="dateCalPick(${t})"`}>${d}</button>`;
+  }
+  document.getElementById('dateCalBody').innerHTML = `
+    <div class="cal-head">
+      <button onclick="dateShift(-1)">‹</button>
+      <span>${MND[m].charAt(0).toUpperCase() + MND[m].slice(1)} ${y}</span>
+      <button onclick="dateShift(1)">›</button>
+    </div>
+    <div class="cal-grid">${cells}</div>`;
+  document.getElementById('dateCalInfo').textContent = pickedDate ? fmtDate(pickedDate) : tr('Velg en dag');
+  document.getElementById('dateCalBtn').disabled = !pickedDate;
+}
+function dateCalPick(t) { pickedDate = t; renderDateCal(); }
+function confirmDateCal() {
+  state.date = pickedDate;
+  closeDateCal();
+  go(4);
+}
+
 function pickTicket(idx) {
   const [t, p] = state.venue.tickets[idx];
   state.ticket = t; state.price = p;
@@ -1695,7 +2089,7 @@ function renderQty() {
     <div class="qty-row">
       <div class="info">
         <div class="t">${tr(per.label)}</div>
-        <div class="p">${tr(per.sub)} · ${nok(priceFor(i))}</div>
+        <div class="p">${tr(per.sub)} · ${fmtPrice(priceFor(i))}</div>
       </div>
       <div class="stepper">
         <button onclick="chg('${per.id}',-1)">−</button>
@@ -1703,7 +2097,13 @@ function renderQty() {
         <button onclick="chg('${per.id}',1)">+</button>
       </div>
     </div>`).join('');
-  document.getElementById('toPayBtn').disabled = total() === 0;
+  document.getElementById('toPayBtn').disabled = PERSONS.reduce((s, p) => s + state.qty[p.id], 0) === 0;
+  document.getElementById('toPayBtn').textContent = needsDate() ? tr('Velg dato') : tr('Til betaling');
+}
+
+function proceedFromQty() {
+  if (needsDate()) openDateCal();
+  else go(4);
 }
 
 function chg(id, d) {
@@ -1718,15 +2118,17 @@ function total() {
 function renderSummary() {
   setProg(4, totSteps(), 'Oppsummering');
   const rows = PERSONS.map((p, i) => state.qty[p.id] > 0
-    ? `<div class="row"><span>${state.qty[p.id]} × ${tr(p.label)}</span><span>${nok(state.qty[p.id] * priceFor(i))}</span></div>`
+    ? `<div class="row"><span>${state.qty[p.id]} × ${tr(p.label)}</span><span>${fmtPrice(state.qty[p.id] * priceFor(i))}</span></div>`
     : '').join('');
   document.getElementById('summaryBox').innerHTML = `
     <div class="row"><span>${tr('Anlegg')}</span><span>${displayName()}</span></div>
     <div class="row"><span>${tr('Billett')}</span><span>${trTicket(state.ticket)}</span></div>
-    <div class="row"><span>${tr('Gyldighet')}</span><span>${tr('1 valgfri dag i sesongen')}</span></div>
+    ${state.date
+      ? `<div class="row"><span>${tr('Dato')}</span><span>${fmtDate(state.date)}</span></div>`
+      : `<div class="row"><span>${tr('Gyldighet')}</span><span>${tr('1 valgfri dag i sesongen')}</span></div>`}
     ${rows}
-    <div class="row total"><span>${tr('Totalt')}</span><span>${nok(total())}</span></div>`;
-  document.getElementById('payBtn').textContent = `${tr('Betal')} ${nok(total())}`;
+    <div class="row total"><span>${tr('Totalt')}</span><span>${fmtPrice(total())}</span></div>`;
+  document.getElementById('payBtn').textContent = isFree() ? tr('Fullfør booking') : `${tr('Betal')} ${nok(total())}`;
 }
 
 function selectPay(p) {
@@ -1736,7 +2138,8 @@ function selectPay(p) {
 }
 
 function restart() {
-  state = { venue:null, location:null, ticket:null, price:0, qty:emptyQty(), pay:'vipps' };
+  state = { venue:null, location:null, ticket:null, price:0, qty:emptyQty(), pay:'vipps', asGuestPass:false, date:null };
+  renderVenues();
   go(1);
 }
 
@@ -1834,7 +2237,7 @@ function doRedeem() {
 const MEM = { type:'enkelt', persons:[], vilkar:false, payMode:'mnd', due:'10.', payMethod:'vipps' };
 let tmpKeycard = 'ny', tmpCard = null, pickedCard = 0;
 const EXISTING_CARDS = ['1-16147159923260168730-6', '1-16147159923315924959-8', '1-16147159923409273036-3'];
-const MEM_SCREENS = ['home','homeGuest','coupons','booking','tickets','stats','memType','memPersons','memSummary','memDone'];
+const MEM_SCREENS = ['home','homeGuest','coupons','booking','tickets','stats','memType','memPersons','memSummary','memDone','profile','profileSub'];
 
 // ---- Adgang: Keycard / mobilbillett ----
 let mobilAktiv = false;      // mobilbillett aktivert?
@@ -1969,7 +2372,7 @@ function renderMyTickets() {
   document.getElementById('ticketCards').innerHTML = MY_TICKETS.map((t, i) => `
     <div class="ticket-card">
       <div class="t-name">${trTicket(t.name)}</div>
-      <div class="t-info">${t.venue} · ${tr(t.catLabel)} (${tr(t.catSub)}) · ${nok(t.price)}</div>
+      <div class="t-info">${t.venue} · ${tr(t.catLabel)} (${tr(t.catSub)}) · ${t.price === 0 ? tr('Gratis') : nok(t.price)}</div>
       <div class="t-valid">${tr('Gyldig 1 valgfri dag gjennom sesongen')}</div>
       <div class="qrbox" id="qr${i}"></div>
     </div>`).join('');
@@ -1986,7 +2389,7 @@ function renderMyTickets() {
 let hasMembership = false;
 
 function logIn() { hasMembership = true; showHome(); }
-function quickBuy(id) { memGo('booking'); pickVenue(id); }
+function quickBuy(id) { memGo('booking'); pickVenue(id, true); }
 
 function memGo(id) {
   MEM_SCREENS.forEach(s => document.getElementById(s).classList.add('hidden'));
@@ -2180,16 +2583,81 @@ function memReset() {
 
 function showBooking() {
   memGo('booking'); // skjuler alle andre skjermer, inkludert forsiden
+  venueQuery = '';
+  const vs = document.getElementById('venueSearch'); if (vs) vs.value = '';
+  renderVenues();   // oppdater seksjonene ut fra innlogget-status
   go(1);
 }
 
 function showHome() { memGo(hasMembership ? 'home' : 'homeGuest'); }
+
+// ---- Profil ----
+let membershipCancelled = false;
+function openProfile() { updateMemberCard(); memGo('profile'); }
+function openFamily() { startMembership(); selectMemType('familie'); }
+function logOut() { hasMembership = false; addedVenues = []; favLoc = null; renderVenueInfo(); showHome(); }
+
+function updateMemberCard() {
+  const card = document.getElementById('pfMemberCard');
+  if (!card) return;
+  card.classList.toggle('cancelled', membershipCancelled);
+  document.getElementById('pfMemberStatus').textContent =
+    membershipCancelled ? tr('⚠ Stopper automatisk den 15.01.27') : tr('✓ Gyldig til 15.01.2027');
+}
+
+function cancelMembership() {
+  membershipCancelled = true;
+  updateMemberCard();
+  openProfile();
+}
+
+const PF_PAGES = {
+  venn: { title:'Ta med en venn', body:`<p class="pf-p">Inviter en venn og dere får begge et gratis dagspass! Del din personlige invitasjonslenke.</p><div class="pf-field">skimore.no/venn/MARTIN2026</div><button class="cta">Del invitasjon</button>` },
+  endre: { title:'Endre medlemskap', body:`<p class="pf-p">Her kan du endre eller si opp medlemskapet ditt.</p><div class="pf-inforow"><span>Type</span><span>Enkeltmedlemskap</span></div><div class="pf-inforow"><span>Pris</span><span>289 kr/mnd</span></div><div class="pf-inforow"><span>Bindingstid</span><span>Ingen</span></div><button class="cta" style="margin-top:14px;" onclick="cancelMembership()">Si opp medlemskap</button>` },
+  rediger: { title:'Rediger profil', body:`<input class="input" value="Martin Skimore"><input class="input" value="mj@skimore.no"><input class="input" value="+47 900 00 000"><button class="cta">Lagre endringer</button>` },
+  betalingsmetode: { title:'Endre betalingsmetode', body:`<p class="pf-p">Nåværende betalingsmetode:</p><div class="pf-inforow"><span>💳 Visa</span><span>•••• 4242</span></div><button class="cta" style="margin-top:14px;">Legg til ny betalingsmetode</button>` },
+  fakturaer: { title:'Tidligere fakturaer', body:`<div class="pf-inforow"><span>Mai 2026</span><span>289 kr</span></div><div class="pf-inforow"><span>April 2026</span><span>289 kr</span></div><div class="pf-inforow"><span>Mars 2026</span><span>289 kr</span></div><div class="pf-inforow"><span>Februar 2026</span><span>289 kr</span></div>` },
+  innstillinger: { title:'Innstillinger', body:`<p class="pf-p">Velg hvordan vi kan kontakte deg.</p><div class="pf-inforow"><span>E-post</span><span>På</span></div><div class="pf-inforow"><span>SMS</span><span>På</span></div><div class="pf-inforow"><span>Push-varsler</span><span>Av</span></div>` },
+  kontakt: { title:'Kontakt oss', body:`<p class="pf-p">Vi hjelper deg gjerne!</p><div class="pf-inforow"><span>E-post</span><span>support@skimore.no</span></div><div class="pf-inforow"><span>Telefon</span><span>22 00 00 00</span></div><div class="pf-inforow"><span>Åpningstider</span><span>09:00–17:00</span></div>` },
+  skipatrulje: { title:'Kontakt skipatrulje', body:`<p class="pf-p">Ved skade eller nødssituasjon i bakken, kontakt skipatruljen umiddelbart.</p><div class="pf-inforow"><span>Nødnummer</span><span>113</span></div><div class="pf-inforow"><span>Skipatrulje</span><span>22 11 11 11</span></div>` },
+  faq: { title:'Ofte stilte spørsmål', body:`<p class="pf-p"><b>Hvordan henter jeg Keycard?</b><br>I resepsjonen ved første besøk.</p><p class="pf-p"><b>Kan jeg fryse medlemskapet?</b><br>Ja, kontakt kundeservice.</p><p class="pf-p"><b>Gjelder medlemskapet om sommeren?</b><br>Ja, hele året.</p>` },
+  betingelser: { title:'Betingelser', body:`<p class="pf-p">Her finner du Skimores vilkår og betingelser for medlemskap og bruk av anleggene. Fullstendige vilkår er tilgjengelige på skimore.no.</p>` },
+  personvern: { title:'Personvern', body:`<p class="pf-p">Vi behandler personopplysningene dine i henhold til GDPR. Les vår fullstendige personvernerklæring på skimore.no.</p>` },
+};
+
+function pfPage(key) {
+  if (key.indexOf('venue:') === 0) {
+    const id = key.slice(6);
+    const v = VENUES.find(x => x.id === id) || { name: id };
+    const info = VENUE_INFO[id] || DEFAULT_INFO;
+    const rows = Object.entries(info.rows).map(([k, val]) =>
+      `<div class="pf-inforow"><span>${tr(k)}</span><span>${valTr(val)}</span></div>`).join('');
+    return { title: v.name, body:
+      `<div class="pf-inforow"><span>Status</span><span>${info.status === 'open' ? tr('Åpent') : tr('Stengt')}</span></div>${rows}
+       <button class="cta" style="margin-top:14px;" onclick="quickBuy('${id}')">${tr('Kjøp gjestepass')}</button>` };
+  }
+  if (key === 'partner:vestfold') {
+    return { title:'Høyt & Lavt Vestfold', body:
+      `<p class="pf-p">Partneranlegg – klatrepark og aktiviteter i Vestfold. Inkludert i ditt medlemskap.</p>
+       <div class="pf-inforow"><span>${tr('Åpningstider')}</span><span>10:00–18:00</span></div>
+       <div class="pf-inforow"><span>Sted</span><span>Vestfold</span></div>` };
+  }
+  return PF_PAGES[key] || { title: key, body:'<p class="pf-p">Innhold kommer.</p>' };
+}
+
+function openProfileSub(key) {
+  const p = pfPage(key);
+  document.getElementById('pfSubTitle').textContent = p.title;
+  document.getElementById('pfSubBody').innerHTML = p.body;
+  memGo('profileSub');
+}
 
 // init
 captureStatic();   // fang original norsk tekst før dynamiske skjermer fylles
 renderVenues();
 updateCouponBtn();
 updateTicketBtns();
+renderVenueInfo();
 </script>
 </body>
 </html>
